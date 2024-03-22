@@ -15,11 +15,12 @@ app.use(cors({
     credentials: true,
 }));
 
-dbConnection()
+dbConnection();
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
 app.use('/api/v1/alumni', alumniRouter);
 app.use(errorMiddleware);
 

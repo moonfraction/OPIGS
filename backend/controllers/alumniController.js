@@ -60,6 +60,18 @@ const loginAlumni = catchAsyncError(async (req,res) => {
     sendToken(alumni, 200, res, "Alumni logged in successfully");
 })
 
+const logoutAlumni = catchAsyncError((async (req,res) => {
+    res.cookie("token",null,{
+        expires:new Date(Date.now()),
+        httpOnly:true
+    });
+    res.status(200).json({
+        success:true,
+        message:"Logout successful"
+    });
+}))
+
+//To be checked
 const approveRequest = catchAsyncError(async (req,res) => {
     const {stu_id} = req.params;
     const stu = Student.findOne({stu_id});
@@ -69,8 +81,10 @@ const approveRequest = catchAsyncError(async (req,res) => {
     for(const singleRequest of stu.requests){
         if(singleRequest.alumni._id == alum._id){
             singleRequest.status = 1;
+            await stu.save({validateBeforeSave:false});
+            break;
         }
     }
 })
 
-export {registerAlumni,loginAlumni,approveRequest}
+export {registerAlumni,loginAlumni,approveRequest,logoutAlumni}
