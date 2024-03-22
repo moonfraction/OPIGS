@@ -2,7 +2,7 @@ import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import Alumni from "../models/alumniSchema.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
-import sendToken from "../utils/jwtToken.js";
+import {sendToken} from "../utils/jwtToken.js";
 
 
 const registerAlumni = catchAsyncError(async (req, res) => {
