@@ -37,8 +37,12 @@ const registerAlumni = catchAsyncError(async (req, res) => {
         branch,
         avatar:avatar.url
     });
-
-    sendToken(alumni, 200, res, "Alumni registered successfully");
+    
+    res.json({
+        success: true,
+        message: "Alumni registered successfully",
+        alumni
+    });
     
 });
 
