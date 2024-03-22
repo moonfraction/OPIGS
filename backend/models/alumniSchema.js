@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import ErrorHandler from '../middlewares/error.js';
 
 // Define the alumni schema i.e. the structure of the alumni object
 const alumniSchema = new mongoose.Schema({
@@ -18,11 +17,7 @@ const alumniSchema = new mongoose.Schema({
         required: [true, 'Email is required'],
         unique: true,
         trim: true,
-        validate(value) {
-            if (!validator.isEmail(value)) {
-                throw new ErrorHandler('Invalid email', 400);
-            }
-        }
+        validate: [validator.isEmail, 'Please enter a valid email address']
     },
     currentCompany: {
         type: String,
@@ -81,7 +76,6 @@ alumniSchema.methods.comparePassword = async function (enteredPassword) {
 }
 
 // Generate a jwt token for the alumni for authoriztion
-//GENERATING A JWT TOKEN WHEN A USER REGISTERS OR LOGINS, IT DEPENDS ON OUR CODE THAT WHEN DO WE NEED TO GENERATE THE JWT TOKEN WHEN THE USER LOGIN OR REGISTER OR FOR BOTH. 
 alumniSchema.methods.generateAccessToken = function () {
     return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY

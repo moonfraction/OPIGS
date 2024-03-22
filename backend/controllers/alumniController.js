@@ -2,7 +2,8 @@ import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import Alumni from "../models/alumniSchema.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
-import jwt from "jsonwebtoken";
+import sendToken from "../utils/jwtToken.js";
+
 
 const registerAlumni = catchAsyncError(async (req, res) => {
     const {username,email,password,phone,currentCompany,jobProfile,branch} = req.body;
@@ -37,11 +38,8 @@ const registerAlumni = catchAsyncError(async (req, res) => {
         avatar:avatar.url
     });
 
-    res.status(201).json({
-        success: true,
-        message: "Alumni registered successfully",
-        alumni
-    });
+    sendToken(alumni, 200, res, "Alumni registered successfully");
+    
 });
 
 const loginAlumni = catchAsyncError(async (req,res) => {
@@ -54,17 +52,8 @@ const loginAlumni = catchAsyncError(async (req,res) => {
     if(!passwordMatch){
         throw new ErrorHandler("Invalid Password", 401);
     }
-    const token = alumni.generateAccessToken();
-    const options = {
-        httpOnly:true,
-        secure:true
-    }
-    res.cookie("token",token,options);
-    res.status(200).json({
-        success:true,
-        message:"Login successful",
-        alumni
-    });
+    
+    sendToken(alumni, 200, res, "Alumni logged in successfully");
 })
 
 const approveRequest = catchAsyncError(async (req,res) => {

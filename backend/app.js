@@ -4,8 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import alumniRouter from './routes/alumniRouter.js';
 import {dbConnection} from './database/dbConnection.js';
-import ErrorHandler, {errorMiddleware} from './middlewares/error.js';
-
+import {errorMiddleware} from './middlewares/error.js';
 
 const app = express();
 dotenv.config({path: "./config/config.env"});
@@ -26,4 +25,3 @@ app.use(errorMiddleware);
 
 
 export default app;
-
