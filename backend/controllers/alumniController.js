@@ -48,13 +48,16 @@ const registerAlumni = catchAsyncError(async (req, res) => {
 
 const loginAlumni = catchAsyncError(async (req,res) => {
     const {email,password} = req.body;
+    if(!email || !password){
+        throw new ErrorHandler("Please enter email and password", 400);
+    }
     const alumni = await Alumni.findOne({email});
     if(!alumni){
         throw new ErrorHandler("Invalid Email or Password", 401);
     }
     const passwordMatch = alumni.comparePassword(password);
     if(!passwordMatch){
-        throw new ErrorHandler("Invalid Password", 401);
+        throw new ErrorHandler("Invalid Password or Password", 401);
     }
     
     sendToken(alumni, 200, res, "Alumni logged in successfully");
