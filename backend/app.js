@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import alumniRouter from './routes/alumniRouter.js';
+import studentRouter from './routes/studentRouter.js';
 import companyRouter from './routes/companyRouter.js';
 import jobRouter from './routes/jobRouter.js';
 import {dbConnection} from './database/dbConnection.js';
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use('/api/v1/alumni', alumniRouter);
+app.use('/api/v1/student',studentRouter);
 app.use('/api/v1/company', companyRouter);
 app.use('/api/v1/job', jobRouter);
 app.use(errorMiddleware);
