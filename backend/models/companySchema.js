@@ -62,6 +62,14 @@ const companySchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please upload Company logo'],
     },
+    isverified: {
+        type: String,
+        default: 'Not Verified'
+    },
+    status: {
+        type: String,
+        default: 'Not applied for verification'
+    }
 }, {
     timestamps: true
 });

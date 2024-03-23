@@ -3,6 +3,7 @@ import ErrorHandler from "../middlewares/error.js";
 import Company from "../models/companySchema.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { sendToken } from "../utils/jwtToken.js";
+import Verification from "../models/verificationSchema.js";
 
 // register company => /api/v1/company/register
 export const registerCompany = catchAsyncError(async (req, res, next) => {
@@ -39,7 +40,7 @@ export const registerCompany = catchAsyncError(async (req, res, next) => {
         workEnvironment,
         location,
         website,
-        logo: logo.url
+        logo: logo.url,
     });
 
     res.json({
@@ -133,4 +134,37 @@ export const updateCompanyProfile = catchAsyncError(async (req, res, next) => {
     });
 });
 
-// apply for company 
+
+//apply for verification => /api/v1/company/apply
+//admin will see the verification request, change status to VERIFIED or REJECTED, and isverified to VERIFIED or NOT VERIFIED
+export const applyForVerification = catchAsyncError(async (req, res, next) => {
+    const { id } = req.user;
+    let company = await Company.findById(id);
+    if (!company) {
+        return next(new ErrorHandler('Company not found', 404));
+    }
+    if (company.isverified === 'Verified') {
+        return next(new ErrorHandler('Company is already verified', 400));
+    }
+    
+    let verification = await Verification.findOne({ company: id });
+    if (verification) {
+        return next(new ErrorHandler('Verification request already sent', 400));
+    }
+    verification = await Verification.create({
+        company: id,
+    });
+
+    //status: 'pending'
+    const updatedCompany = await Company.findByIdAndUpdate(id, { status: 'Pending' }, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    })
+
+    res.status(200).json({
+        success: true,
+        message: 'Verification request sent successfully',
+        verification
+    });
+});
