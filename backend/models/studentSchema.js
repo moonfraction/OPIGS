@@ -61,12 +61,12 @@ const studentSchema = new mongoose.Schema({
             ref: "Alumni"
         }
     ],
-    jobsApplied:[
-        {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "Job"
-        }
-    ]
+    // jobsApplied:[
+    //     {
+    //         type : mongoose.Schema.Types.ObjectId,
+    //         ref : "Job"
+    //     }
+    // ]
 },{timestamps:true})
 
 

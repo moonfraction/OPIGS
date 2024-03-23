@@ -133,37 +133,36 @@ export const changePassword = catchAsyncError(async(req, res) => {
 //     })
 // })
 
-export const uploadProfilePhoto = catchAsyncError (async(req,res)=>{
-    const {stu_id} = req.params 
-    const student = await Student.findById(stu_id)
+export const uploadProfilePhoto = catchAsyncError (async(req,res,next)=>{
+    const {id} = req.params;
+    console.log(id);
+    const student = await Student.findById(id);
+    if(!student){
+        return next(new ErrorHandler('Student not found',404))
+    }
+    // if(student.id !== req.user.id){
+    //     return next(new ErrorHandler('You are not authorized to upload profile photo',401))
+    // }
     let profilePhotoURLLocalPath;
-    if(req.file && req.file.profilePhoto && req.file.profilePhoto.length > 0 ){
-        profilePhotoURLLocalPath = req.file.profilePhoto.path
+    if(req.files && Array.isArray(req.files.profilePhoto) && req.files.profilePhoto.length > 0 ){
+        profilePhotoURLLocalPath = req.files.profilePhoto[0].path
     }
     if (!profilePhotoURLLocalPath) {
-        throw new ErrorHandler("Please upload your profile Photo",401)
+        return next (new ErrorHandler("Please upload your profile Photo",401))
     }
 
     const profilePhoto = await uploadOnCloudinary(profilePhotoURLLocalPath)
     if (!profilePhoto) {
-        throw new ErrorHandler("Error while uploading Profile Photo",401)
+        return next( new ErrorHandler("Error while uploading Profile Photo",401))
         
     }
 
-    student.profilePhoto = profilePhoto.url
-    await student.save({validateBeforeSave: false})
-
-    // const user = await Student.findByIdAndUpdate(
-    //     req.user?._id,
-    //     {
-    //         $set:{
-    //             profilePhoto:profilePhoto.url
-    //         }
-    //     },
-    //     {new: true}
-    // ).select("-password")
-
-
+    req.body.profilePhoto = profilePhoto.url;
+    const uploaded = await Student.findByIdAndUpdate(id, req.body, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    });
     return res
     .status(200)
     .json({
@@ -173,29 +172,20 @@ export const uploadProfilePhoto = catchAsyncError (async(req,res)=>{
     )
 })
 
-export const viewAllJobs = catchAsyncError(async(req,res)=>{
-    const jobs = await Job.find({expired: false});
-    res.status(200).json({
-        success: true,
-        jobs
-    });
-})
+// export const viewAllJobs = catchAsyncError(async(req,res)=>{
+//     const jobs = await Job.find({expired: false});
+//     res.status(200).json({
+//         success: true,
+//         jobs
+//     });
+// })
 
-export const viewAppliedJobs = catchAsyncError(async(req,res)=>{
-    const {stu_id} = req.params
-    const student = await Student.findById(stu_id)
-    const jobsapplied = student.jobsApplied
-    res.status(200).json({
-        success: true,
-        jobsapplied
-    })
-})
 export const studentNotifications = catchAsyncError(async(req,res)=>{
 
 
 })
 
-export const TalkToAlumni = catchAsyncError(async(req,res)=>{
+export const talkToAlumni = catchAsyncError(async(req,res)=>{
 
 })
 
