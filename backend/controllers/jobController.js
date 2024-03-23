@@ -2,7 +2,19 @@ import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import Job from "../models/jobSchema.js";
 
+//check if company is verfied 
+//if not verified, return error
+//if verified, proceed with the request
+const checkCompanyVerification = (req, res, next) => {
+    if (req.user.status !== 'Approved' || req.user.isverified !== 'Verified'){
+        return next(new ErrorHandler("Company is not verified", 400));
+    }
+    next();
+}
+
 export const getAllJobs = catchAsyncError(async (req, res, next) => {
+    checkCompanyVerification(req, res, next);
+
     const jobs = await Job.find({ expired: false });
     res.status(200).json({
         success: true,
@@ -11,6 +23,8 @@ export const getAllJobs = catchAsyncError(async (req, res, next) => {
 });
 
 export const getMyJobs = catchAsyncError(async (req, res, next) => {
+    checkCompanyVerification(req, res, next);
+
     const { id } = req.user;
     const myJobs = await Job.find({ company: id });
     res.status(200).json({
@@ -21,6 +35,8 @@ export const getMyJobs = catchAsyncError(async (req, res, next) => {
 
 
 export const updateJob = catchAsyncError(async (req, res, next) => {
+    checkCompanyVerification(req, res, next);
+
     const { id } = req.params;
     let job = await Job.findById(id);
     if (!job) {
@@ -43,6 +59,8 @@ export const updateJob = catchAsyncError(async (req, res, next) => {
 });
 
 export const deleteJob = catchAsyncError(async (req, res, next) => {
+    checkCompanyVerification(req, res, next);
+
     let job = await Job.findById(req.params.id);
     if (!job) {
         return next(new ErrorHandler("Job not found", 404));
@@ -58,6 +76,8 @@ export const deleteJob = catchAsyncError(async (req, res, next) => {
 });
 
 export const getJobDetails = catchAsyncError(async (req, res, next) => {
+    checkCompanyVerification(req, res, next);
+
     const job = await Job.findById(req.params.id);
     if (!job) {
         return next(new ErrorHandler("Job not found", 404));
@@ -70,6 +90,8 @@ export const getJobDetails = catchAsyncError(async (req, res, next) => {
 
 
 export const postJob = catchAsyncError(async (req, res, next) => {
+    checkCompanyVerification(req, res, next);
+
     const { category, title, description, location, fixedSalary, salaryFrom, salaryTo, jobType, postedOn, deadline, expired} = req.body;
 
     // Fetch all jobs posted by the same company
@@ -133,7 +155,6 @@ export const postJob = catchAsyncError(async (req, res, next) => {
         }
     }
 
-
     const company = req.user.id;
 
     const job = await Job.create({
@@ -157,3 +178,4 @@ export const postJob = catchAsyncError(async (req, res, next) => {
         job
     });
 });
+
