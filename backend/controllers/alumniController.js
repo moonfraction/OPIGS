@@ -103,7 +103,6 @@ const getAllAlumni = catchAsyncError(async (req,res,next) => {
     })
 })
 
-// update logged in alumni profile => /api/v1/company/update
 const updateAlumniProfile = catchAsyncError(async (req, res, next) => {
     const id = req.user._id;
     let alumni = await Alumni.findById(id);
