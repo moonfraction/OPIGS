@@ -3,6 +3,7 @@ import ErrorHandler from "../middlewares/error.js";
 import Alumni from "../models/alumniSchema.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import {sendToken} from "../utils/jwtToken.js";
+import RequestAlumni from "../models/requestAlumniSchema.js";
 
 
 const registerAlumni = catchAsyncError(async (req, res) => {
@@ -37,6 +38,7 @@ const registerAlumni = catchAsyncError(async (req, res) => {
         branch,
         avatar:avatar.url
     });
+    console.log(req.body);
     
     res.json({
         success: true,
@@ -55,7 +57,7 @@ const loginAlumni = catchAsyncError(async (req,res) => {
     if(!alumni){
         throw new ErrorHandler("Invalid Email or Password", 401);
     }
-    const passwordMatch = alumni.comparePassword(password);
+    const passwordMatch = await alumni.comparePassword(password);
     if(!passwordMatch){
         throw new ErrorHandler("Invalid Password or Password", 401);
     }
@@ -74,20 +76,74 @@ const logoutAlumni = catchAsyncError((async (req,res) => {
     });
 }))
 
-//To be checked
 const approveRequest = catchAsyncError(async (req,res) => {
-    const {stu_id} = req.params;
-    const stu = Student.findOne({stu_id});
-    const token = req.cookies();
-    const decoded = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
-    const alum = await Alumni.findById(decoded.id);
-    for(const singleRequest of stu.requests){
-        if(singleRequest.alumni._id == alum._id){
-            singleRequest.status = 1;
-            await stu.save({validateBeforeSave:false});
-            break;
-        }
+    const {id} = req.params;
+    const request = await RequestAlumni.findById(id);
+    if(!request){
+        throw new ErrorHandler("Request not found", 404);
     }
+    request.status = true;
+    await request.save();
+    res.status(200).json({
+        success:true,
+        message:"Request approved successfully",
+        request
+    });
 })
 
-export {registerAlumni,loginAlumni,approveRequest,logoutAlumni}
+const getAllAlumni = catchAsyncError(async (req,res,next) => {
+    const alum_data = await Alumni.find({});
+    if(!alum_data){
+        next(new ErrorHandler("Could not fetch alumni or no alumni available",500));
+    }
+    res.status(200).json({
+        success:true,
+        message:"Alumni fetched successful",
+        alum_data
+    })
+})
+
+const updateAlumniProfile = catchAsyncError(async (req, res, next) => {
+    const id = req.user._id;
+    let alumni = await Alumni.findById(id);
+    if (!alumni) {
+        return next(new ErrorHandler('Alumni not found', 404));
+    }
+    console.log(req.body);
+    const updatedAlumni = await Alumni.findByIdAndUpdate(req.user._id
+        , req.body, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false
+        });
+    res.status(200).json({
+        success: true,
+        message: 'Company updated successfully',
+        updatedAlumni
+    });
+});
+
+const updateAlumniAvatar = catchAsyncError(async (req,res,next) => {
+    const id = req.user._id;
+    let alumni = await Alumni.findById(id);
+    let avatarUrlLocalPath;
+    if (req.files && Array.isArray(req.files.avatarAlumni) && req.files.avatarAlumni.length > 0) {
+        avatarUrlLocalPath = req.files.avatarAlumni[0].path
+    }
+    if(!avatarUrlLocalPath){
+        throw new ErrorHandler("Please upload an image", 400);
+    }
+    const avatar = await uploadOnCloudinary(avatarUrlLocalPath);
+    if(!avatar){
+        throw new ErrorHandler("Image upload failed", 500);
+    }
+    alumni.avatar = avatar.url;
+    await alumni.save({validateBeforeSave:false});
+    res.status(200).json({
+        success:true,
+        alumni
+    })
+})
+
+export {registerAlumni,loginAlumni,approveRequest,logoutAlumni,getAllAlumni,updateAlumniProfile,updateAlumniAvatar}
+

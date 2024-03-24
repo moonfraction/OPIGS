@@ -118,6 +118,7 @@ export const updateCompanyProfile = catchAsyncError(async (req, res, next) => {
     if (!logoUrlLocalPath) {
         return next(new ErrorHandler('Please upload an image', 400));
     }
+    
     const logo = await uploadOnCloudinary(logoUrlLocalPath);
     if (!logo) {
         return next(new ErrorHandler('Image upload failed', 500));

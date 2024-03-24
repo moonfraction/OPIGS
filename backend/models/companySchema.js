@@ -64,7 +64,7 @@ const companySchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: 'Not verified',
+        default: "Not Applied"
     }
 }, {
     timestamps: true

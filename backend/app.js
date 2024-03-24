@@ -9,6 +9,7 @@ import applicationRouter from './routes/applicationRouter.js';
 import jobRouter from './routes/jobRouter.js';
 import {dbConnection} from './database/dbConnection.js';
 import {errorMiddleware} from './middlewares/error.js';
+import adminRouter from './routes/adminRouter.js';
 
 const app = express();
 dotenv.config({path: "./config/config.env"});
@@ -29,6 +30,7 @@ app.use('/api/v1/alumni', alumniRouter);
 app.use('/api/v1/student',studentRouter);
 app.use('/api/v1/company', companyRouter);
 app.use('/api/v1/job', jobRouter);
+app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/application', applicationRouter);
 
 app.use(errorMiddleware);
