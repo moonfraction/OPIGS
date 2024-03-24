@@ -76,7 +76,7 @@ export const getJobDetails = catchAsyncError(async (req, res, next) => {
 
 // post job => /api/v1/job/post
 export const postJob = catchAsyncError(async (req, res, next) => {
-    const { category, title, description, location, fixedSalary, salaryFrom, salaryTo, jobType, postedOn, deadline, expired } = req.body;
+    const { category, title, description, location, salary, jobType, postedOn, deadline, expired } = req.body;
 
     if (
         !category ||
@@ -84,72 +84,38 @@ export const postJob = catchAsyncError(async (req, res, next) => {
         !description ||
         !location ||
         !jobType ||
-        !deadline
+        !deadline ||
+        !salary
     ) {
         return next(new ErrorHandler("Please fill all fields", 400));
     }
 
-    if (!fixedSalary && (!salaryFrom || !salaryTo)) {
-        return next(new ErrorHandler("Please enter fixed salary or salary range", 400));
-    }
-
-    if (fixedSalary && (salaryFrom || salaryTo)) {
-        return next(new ErrorHandler("Cannot enter both fixed salary and salary range together", 400));
-    }
-
     // Fetch all jobs posted by the same company
-    const companyJobs = await Job.find({ company: req.user.id });
+    const companyId = req.user.id || req.user._id;
+    const companyJobs = await Job.find({ company: companyId });
 
-    if (salaryFrom && salaryTo) {
-        if (salaryFrom >= salaryTo) {
-            return next(new ErrorHandler("Salary from must be less than salary to", 400));
-        }
-        // Check each job posted by the company
-        for (let job of companyJobs) {
-            // If all fields are identical to the new job, return an error
-            if (job.category === category &&
-                job.title === title &&
-                job.description === description &&
-                job.location === location &&
-                job.salaryFrom === salaryFrom &&
-                job.salaryTo === salaryTo &&
-                job.jobType === jobType &&
-                job.deadline === deadline &&
-                job.expired === expired) {
-                return next(new ErrorHandler("Cannot post identical job", 400));
-            }
+    // Check each job posted by the company
+    for (let job of companyJobs) {
+        // If all fields are identical to the new job, return an error
+        if (job.category === category &&
+            job.title === title &&
+            job.description === description &&
+            job.location === location &&
+            job.salary === salary &&
+            job.jobType === jobType &&
+            job.deadline === deadline &&
+            job.expired === expired) {
+            return next(new ErrorHandler("Cannot post identical job", 400));
         }
     }
-
-    if (fixedSalary) {
-        if (fixedSalary < 0) {
-            return next(new ErrorHandler("Fixed salary cannot be negative", 400));
-        }
-        // Check each job posted by the company
-        for (let job of companyJobs) {
-            // If all fields are identical to the new job, return an error
-            if (job.category === category &&
-                job.title === title &&
-                job.description === description &&
-                job.location === location &&
-                job.fixedSalary === fixedSalary &&
-                job.jobType === jobType) {
-                return next(new ErrorHandler("Cannot post identical job", 400));
-            }
-        }
-    }
-
-    const company = req.user.id;
 
     const job = await Job.create({
         category,
         title,
         description,
         location,
-        fixedSalary,
-        salaryFrom,
-        salaryTo,
-        company,
+        salary,
+        company: companyId,
         jobType,
         postedOn,
         deadline,

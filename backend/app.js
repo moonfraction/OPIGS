@@ -20,7 +20,6 @@ app.use(cors({
     credentials: true,
 }));
 
-dbConnection();
 
 app.use(cookieParser());
 app.use(express.json());
@@ -33,6 +32,7 @@ app.use('/api/v1/job', jobRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/application', applicationRouter);
 
+dbConnection();
 app.use(errorMiddleware);
 
 

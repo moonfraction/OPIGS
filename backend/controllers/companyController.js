@@ -5,6 +5,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { sendToken } from "../utils/jwtToken.js";
 import Verification from "../models/verificationSchema.js";
 import Student from "../models/studentSchema.js";
+import bcrypt from 'bcrypt';
 
 // register company => /api/v1/company/register
 export const registerCompany = catchAsyncError(async (req, res, next) => {
@@ -55,8 +56,6 @@ export const registerCompany = catchAsyncError(async (req, res, next) => {
 // login company => /api/v1/company/login
 export const loginCompany = catchAsyncError(async (req, res, next) => {
     const { email, password } = req.body;
-    console.log(req.body);
-
     // check if email and password is entered by company
     if (!email || !password) {
         return next(new ErrorHandler('Please enter email & password', 400))
@@ -102,13 +101,14 @@ export const getCompanyProfile = catchAsyncError(async (req, res, next) => {
 });
 
 // update logged in company profile => /api/v1/company/update
+// cannot change password here
 export const updateCompanyProfile = catchAsyncError(async (req, res, next) => {
-    const { id } = req.user;
-    let company = await Company.findById(id);
+    const companyId = req.user.id || req.user._id;
+    let company = await Company.findById(companyId);
     if (!company) {
         return next(new ErrorHandler('Company not found', 404));
     }
-    if (company.id !== req.user.id) {
+    if (company.id !== companyId) {
         return next(new ErrorHandler('You are not authorized to update this company', 401));
     }
     let logoUrlLocalPath;
@@ -118,22 +118,48 @@ export const updateCompanyProfile = catchAsyncError(async (req, res, next) => {
     if (!logoUrlLocalPath) {
         return next(new ErrorHandler('Please upload an image', 400));
     }
-    
+
     const logo = await uploadOnCloudinary(logoUrlLocalPath);
     if (!logo) {
         return next(new ErrorHandler('Image upload failed', 500));
     }
     req.body.logo = logo.url;
-    const updatedCompany = await Company.findByIdAndUpdate(id, req.body, {
+
+    if (req.body.password) {
+        delete req.body.password;
+    }
+    const updatedCompany = await Company.findByIdAndUpdate(company
+        , req.body, {
         new: true,
         runValidators: true,
         useFindAndModify: false
     });
+
     res.status(200).json({
         success: true,
         message: 'Company updated successfully',
         updatedCompany
     });
+});
+
+//change password => /api/v1/company/changePassword
+export const changePassword = catchAsyncError(async (req, res, next) => {
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+        return next(new ErrorHandler('Please enter old and new password', 400));
+    }
+    const companyId = req.user.id || req.user._id;
+    const company = await Company.findById(companyId);
+    if (!company) {
+        return next(new ErrorHandler('Company not found', 404));
+    }
+    const isPasswordMatched = await company.comparePassword(oldPassword);
+    if (!isPasswordMatched) {
+        return next(new ErrorHandler('Old password is incorrect', 400));
+    }
+    company.password = newPassword;
+    await company.save();
+    sendToken(company, 200, res, 'Password changed successfully');
 });
 
 
@@ -148,7 +174,7 @@ export const applyForVerification = catchAsyncError(async (req, res, next) => {
     if (company.status === 'Approved') {
         return next(new ErrorHandler('Company is already verified', 400));
     }
-    
+
     let verification = await Verification.findOne({ company: id });
     if (verification) {
         return next(new ErrorHandler('Verification request already sent', 400));
@@ -158,7 +184,7 @@ export const applyForVerification = catchAsyncError(async (req, res, next) => {
     });
 
     //change status to 'pending' in db
-    await Company .findByIdAndUpdate(id, {
+    await Company.findByIdAndUpdate(id, {
         status: 'Pending'
     });
 

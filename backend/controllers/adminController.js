@@ -1,4 +1,3 @@
-import express from 'express';
 import Verification from '../models/verificationSchema.js';
 import { catchAsyncError } from '../middlewares/catchAsyncError.js';
 import ErrorHandler from '../middlewares/error.js'
