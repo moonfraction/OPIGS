@@ -3,6 +3,7 @@ import ErrorHandler from "../middlewares/error.js";
 import Student from "../models/studentSchema.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import {sendToken} from "../utils/jwtToken.js";
+import RequestAlumni from "../models/requestAlumniSchema.js";
 
 //register student => /api/v1/student/register
 export const registerStudent = catchAsyncError( async (req, res) => {
@@ -98,13 +99,13 @@ export const logoutStudent = catchAsyncError(async(req, res) => {
 
 //update student profile => /api/v1/student/update
 export const updateStudentProfile = catchAsyncError(async(req, res) => {
-    const {name,email,phone,branch,courseName,yearOfStudy,CGPA,address} = req.body;
     const studentId = req.user._id || req.user.id;
     const student = await Student.findById(studentId)
     if (!student) {
         throw new ErrorHandler("Student not found",404)
     }
-
+    
+    const {name,email,phone,branch,courseName,yearOfStudy,CGPA,address} = req.body;
     //check if CGPA is between 0 and 10
     if(CGPA) {
         if (CGPA < 0 || CGPA > 10) {
@@ -197,5 +198,25 @@ export const getStudentProfile = catchAsyncError(async(req,res)=>{
     res.status(200).json({
         success:true,
         student
+    })
+});
+
+//request alumni => /api/v1/student/requestAlumni/:alum_id
+export const requestAlumni = catchAsyncError(async(req,res)=>{
+    const studentId = req.user._id || req.user.id;
+    const student = await Student.findById(studentId)
+    if (!student) {
+        throw new ErrorHandler("Student not found",404)
+    }
+    const {alum_id} = req.params;
+    const request = await RequestAlumni.create({
+        student: studentId,
+        alumni: alum_id,
+        status
+    })
+    res.status(200).json({
+        success:true,
+        message:"Request sent successfully",
+        request
     })
 });

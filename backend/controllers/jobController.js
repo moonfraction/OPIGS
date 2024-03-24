@@ -96,15 +96,26 @@ export const postJob = catchAsyncError(async (req, res, next) => {
 
     // Check each job posted by the company
     for (let job of companyJobs) {
+        if (job.expired === true) {
+            continue;
+        }
+        if(job.deadline < new Date()){
+            job.expired = true;
+            await job.save();
+            continue;
+        }
+        //compare deadline of job with deadline of new jo
+
+
         // If all fields are identical to the new job, return an error
-        if (job.category === category &&
+        if (
+            job.category === category &&
             job.title === title &&
             job.description === description &&
             job.location === location &&
             job.salary === salary &&
-            job.jobType === jobType &&
-            job.deadline === deadline &&
-            job.expired === expired) {
+            job.jobType === jobType
+            ) {
             return next(new ErrorHandler("Cannot post identical job", 400));
         }
     }

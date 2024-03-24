@@ -1,26 +1,26 @@
 import express from 'express';
 import { upload } from '../middlewares/multer.js';
-import {isAuthorized} from "../middlewares/auth.js";
-import { registerAlumni,loginAlumni, approveRequest, logoutAlumni, getAllAlumni, updateAlumniProfile, updateAlumniAvatar} from '../controllers/alumniController.js';
-import { isAlumniLoggedIn } from '../middlewares/isAlumniLoggedIn.js';
-const alumniRouter = express.Router();
+import { registerAlumni,loginAlumni, approveRequest, logoutAlumni, getAllAlumni, updateAlumniProfile, seeAllRequests, seeOneRequest, deleteRequest, changePassword} from '../controllers/alumniController.js';
+import { isAlumniLoggedIn } from '../middlewares/alumniAuth.js';
+const router = express.Router();
 
-alumniRouter.route("/register").post(
+router.route("/register").post(
     upload.fields([
-        {name: "avatarAlumni", maxCount: 1}
+        {name: "avatar", maxCount: 1}
     ]),
     registerAlumni
 )
-alumniRouter.route("/login").post(loginAlumni);
-alumniRouter.route("/logout").post(isAuthorized, logoutAlumni);
-alumniRouter.route("/request/:id").get(approveRequest);
-alumniRouter.route("/getall").get(getAllAlumni);
-alumniRouter.route("/update-info").put(isAlumniLoggedIn, updateAlumniProfile);
-alumniRouter.route("/update-avatar").put(isAlumniLoggedIn, 
-    upload.fields([
-        {name: "avatarAlumni", maxCount: 1}
-    ]),    
-    updateAlumniAvatar
-);
+router.route("/login").post(loginAlumni);
+router.route("/logout").post(isAlumniLoggedIn, logoutAlumni);
+router.route("/request/:id").get(isAlumniLoggedIn, seeOneRequest);
+router.route("/request/:id/approve").put(isAlumniLoggedIn, approveRequest);
+router.route("/request/:id/delete").delete(isAlumniLoggedIn, deleteRequest);
+router.route("/requests").get(isAlumniLoggedIn, seeAllRequests);
+router.route("/getall").get(getAllAlumni);
+router.route("/update").put(isAlumniLoggedIn, upload.fields([
+    {name: "avatar", maxCount: 1}
+]), updateAlumniProfile);
+router.route("/changePassword").post(isAlumniLoggedIn, changePassword);
 
-export default alumniRouter ;
+
+export default router ;

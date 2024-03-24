@@ -5,7 +5,6 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { sendToken } from "../utils/jwtToken.js";
 import Verification from "../models/verificationSchema.js";
 import Student from "../models/studentSchema.js";
-import bcrypt from 'bcrypt';
 
 // register company => /api/v1/company/register
 export const registerCompany = catchAsyncError(async (req, res, next) => {
@@ -19,6 +18,11 @@ export const registerCompany = catchAsyncError(async (req, res, next) => {
     if (isEmail) {
         return next(new ErrorHandler('Company already exists with this email', 400));
     }
+    const isPhone = await Company.findOne({ phone });
+    if (isPhone) {
+        return next(new ErrorHandler('Company already exists with this phone number', 400));
+    }
+
 
     let logoUrlLocalPath;
     if (req.files && Array.isArray(req.files.logo) && req.files.logo.length > 0) {
@@ -90,7 +94,8 @@ export const logoutCompany = catchAsyncError(async (req, res, next) => {
 
 // get company profile => /api/v1/company/details
 export const getCompanyProfile = catchAsyncError(async (req, res, next) => {
-    const company = await Company.findById(req.user.id);
+    const companyId = req.user.id || req.user._id;
+    const company = await Company.findById(companyId);
     if (!company) {
         return next(new ErrorHandler('Company not found', 404));
     }
@@ -104,41 +109,59 @@ export const getCompanyProfile = catchAsyncError(async (req, res, next) => {
 // cannot change password here
 export const updateCompanyProfile = catchAsyncError(async (req, res, next) => {
     const companyId = req.user.id || req.user._id;
-    let company = await Company.findById(companyId);
+    const company = await Company.findById(companyId);
     if (!company) {
         return next(new ErrorHandler('Company not found', 404));
     }
     if (company.id !== companyId) {
         return next(new ErrorHandler('You are not authorized to update this company', 401));
     }
+
+    const { name, email, phone, recruitmentPolicy, workEnvironment, location, website } = req.body;
+
+    if (email && email !== company.email) {
+        const isEmail = await Company.findOne({ email });
+        if (isEmail) return next(new ErrorHandler('Company already exists with this email', 400));
+    }
+    const isPhone = await Company.findOne({ phone });
+    if (isPhone && isPhone.id.toString() !== companyId.toString()) {
+        return next(new ErrorHandler('Company already exists with this phone number', 400));
+    }
+
+    const updatedCompany = {
+        name: name || company.name,
+        email: email || company.email,
+        phone: phone || company.phone,
+        recruitmentPolicy: recruitmentPolicy || company.recruitmentPolicy,
+        workEnvironment: workEnvironment || company.workEnvironment,
+        location: location || company.location,
+        website: website || company.website,
+    };
+
+
     let logoUrlLocalPath;
     if (req.files && Array.isArray(req.files.logo) && req.files.logo.length > 0) {
         logoUrlLocalPath = req.files.logo[0].path
     }
-    if (!logoUrlLocalPath) {
-        return next(new ErrorHandler('Please upload an image', 400));
+    if (logoUrlLocalPath) {
+        const logo = await uploadOnCloudinary(logoUrlLocalPath);
+        if (!logo) {
+            return next(new ErrorHandler('Logo upload failed', 500));
+        }
+        updatedCompany.logo = logo.url;
     }
 
-    const logo = await uploadOnCloudinary(logoUrlLocalPath);
-    if (!logo) {
-        return next(new ErrorHandler('Image upload failed', 500));
-    }
-    req.body.logo = logo.url;
-
-    if (req.body.password) {
-        delete req.body.password;
-    }
-    const updatedCompany = await Company.findByIdAndUpdate(company
-        , req.body, {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false
-    });
+    const updatedCompanyProfile = await Company.findByIdAndUpdate
+        (companyId, updatedCompany, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false
+        });
 
     res.status(200).json({
         success: true,
-        message: 'Company updated successfully',
-        updatedCompany
+        message: 'Company profile updated successfully',
+        updatedCompanyProfile
     });
 });
 
@@ -147,6 +170,9 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
     const { oldPassword, newPassword } = req.body;
     if (!oldPassword || !newPassword) {
         return next(new ErrorHandler('Please enter old and new password', 400));
+    }
+    if (oldPassword === newPassword) {
+        return next(new ErrorHandler('Old password and new password cannot be same', 400));
     }
     const companyId = req.user.id || req.user._id;
     const company = await Company.findById(companyId);
@@ -172,7 +198,7 @@ export const applyForVerification = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler('Company not found', 404));
     }
     if (company.status === 'Approved') {
-        return next(new ErrorHandler('Company is already verified', 400));
+        return next(new ErrorHandler('Company is already approved', 400));
     }
 
     let verification = await Verification.findOne({ company: id });

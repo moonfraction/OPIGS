@@ -15,11 +15,7 @@ const applicationSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Email is required'],
         trim: true,
-        validate(value) {
-            if (!validator.isEmail(value)) {
-                throw new Error('Email is invalid');
-            }
-        }
+        validate: [validator.isEmail, 'Please enter a valid email']
     },
     coverLetter: {
         type: String,
