@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import alumniRouter from './routes/alumniRouter.js';
 import {dbConnection} from './database/dbConnection.js';
 import {errorMiddleware} from './middlewares/error.js';
+import adminRouter from './routes/adminRouter.js';
 
 const app = express();
 dotenv.config({path: "./config/config.env"});
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use('/api/v1/alumni', alumniRouter);
+app.use('/api/v1/admin', adminRouter);
 app.use(errorMiddleware);
 
 
