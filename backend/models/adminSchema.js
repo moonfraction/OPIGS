@@ -4,6 +4,10 @@ import jwt from 'jsonwebtoken';
 import { catchAsyncError } from '../middlewares/catchAsyncError.js';
 
 const adminSchema = new mongoose.Schema({
+    email:{
+        type: String,
+        required: [true, 'Email is required'],
+    },
     password:{
         type: String,
         required: [true, 'Password is required'],
@@ -22,6 +26,10 @@ adminSchema.methods.generateAccessToken = catchAsyncError(async (req,res) =>{
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY
     });
 })
+
+adminSchema.methods.comparePassword = async (enteredPassword) =>{
+    return await bcrypt.compare(enteredPassword, this.password);
+}
 
 const Admin = mongoose.model('Admin', adminSchema);
 export default Admin;
