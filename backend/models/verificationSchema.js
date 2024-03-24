@@ -9,8 +9,8 @@ const verificationSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        // enum: ['Pending', 'Approved', 'Rejected'],
-        //dropdown in frontend ['Pending', 'Approved', 'Rejected']
+        // enum: ['Approved', 'Rejected'],
+        //dropdown in frontend ['Approved', 'Rejected']
         default: 'Pending'
     }
 }, {timestamps: true});    

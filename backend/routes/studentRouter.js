@@ -1,26 +1,19 @@
 import express from 'express';
 import {upload} from '../middlewares/multer.js';
 import { isAuthorized } from '../middlewares/auth.js';
-import {registerStudent,loginStudent,logoutStudent,changePassword,uploadProfilePhoto,/*viewAllJobs*/studentNotifications,talkToAlumni} from "../controllers/studentController.js"
-import { jobSeekerGetAllApplications, postApplication, studentDeleteApplication } from '../controllers/applicationController.js';
+import {registerStudent,loginStudent,logoutStudent,changePassword, getStudentProfile} from "../controllers/studentController.js"
 
-const studentRouter = express.Router();
+const router = express.Router();
 
-studentRouter.route("/register").post(
+router.route("/register").post(
+    upload.fields([
+        {name: "profilePhoto", maxCount: 1}
+    ]),
     registerStudent
-)
+);
+router.route("/login").post(loginStudent)
+router.route("/logout").post(isAuthorized,logoutStudent)
+router.route("/changePassword").post(isAuthorized,changePassword)
+router.route("/details").get(isAuthorized,getStudentProfile)
 
-studentRouter.route("/login").post(loginStudent)
-studentRouter.route("/logout").post(isAuthorized,logoutStudent)
-studentRouter.route("/changePassword/:stu_id").post(isAuthorized,changePassword)
-studentRouter.route("/uploadProfilePhoto/:id").put(isAuthorized, upload.fields([
-    {name :"profilePhoto",maxCount : 1}
-]), uploadProfilePhoto);
-// studentRouter.route("/viewAllJobs").get(viewAllJobs)
-studentRouter.route("/MyApplications").post(isAuthorized,jobSeekerGetAllApplications)
-studentRouter.route("/notification").get(studentNotifications)
-studentRouter.route("/chatWithAlumni").get(talkToAlumni)
-studentRouter.route("/postApplication").post(isAuthorized,postApplication)
-studentRouter.route("/deleteApplication").post(studentDeleteApplication)
-
-export default studentRouter;
+export default router;

@@ -2,12 +2,8 @@ import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import Job from "../models/jobSchema.js";
 
-
+// Get all jobs => /api/v1/jobs
 export const getAllJobs = catchAsyncError(async (req, res, next) => {
-    if (req.user.status !== 'Approved' || req.user.isverified !== 'Verified'){
-        return next(new ErrorHandler("Company is not verified", 400));
-    }
-    next();
     const jobs = await Job.find({ expired: false });
     res.status(200).json({
         success: true,
@@ -15,11 +11,8 @@ export const getAllJobs = catchAsyncError(async (req, res, next) => {
     });
 });
 
+// Get all jobs => /api/v1/myjobs
 export const getMyJobs = catchAsyncError(async (req, res, next) => {
-    if (req.user.status !== 'Approved' || req.user.isverified !== 'Verified'){
-        return next(new ErrorHandler("Company is not verified", 400));
-    }
-    next();
     const { id } = req.user;
     const myJobs = await Job.find({ company: id });
     res.status(200).json({
@@ -28,18 +21,15 @@ export const getMyJobs = catchAsyncError(async (req, res, next) => {
     });
 });
 
-
+// update job => /api/v1/job/update/:id
 export const updateJob = catchAsyncError(async (req, res, next) => {
-    if (req.user.status !== 'Approved' || req.user.isverified !== 'Verified'){
-        return next(new ErrorHandler("Company is not verified", 400));
-    }
-    next();
     const { id } = req.params;
     let job = await Job.findById(id);
     if (!job) {
         return next(new ErrorHandler("Job not found", 404));
     }
-    if (job.company.toString() !== req.user.id) {
+    const company = req.user.id || req.user._id;
+    if (job.company.toString() !== company) {
         return next(new ErrorHandler("You are not authorized to update this job", 401));
     }
     const updatedJob = await Job.findByIdAndUpdate
@@ -55,15 +45,13 @@ export const updateJob = catchAsyncError(async (req, res, next) => {
     });
 });
 
+// delete job => /api/v1/job/delete/:id
 export const deleteJob = catchAsyncError(async (req, res, next) => {
-    if (req.user.status !== 'Approved' || req.user.isverified !== 'Verified'){
-        return next(new ErrorHandler("Company is not verified", 400));
-    }
-    next();
     let job = await Job.findById(req.params.id);
     if (!job) {
         return next(new ErrorHandler("Job not found", 404));
     }
+    const company = req.user.id || req.user._id;
     if (job.company.toString() !== req.user.id) {
         return next(new ErrorHandler("User not authorized to delete this job", 401));
     }
@@ -74,11 +62,8 @@ export const deleteJob = catchAsyncError(async (req, res, next) => {
     });
 });
 
+// get job details => /api/v1/job/:id
 export const getJobDetails = catchAsyncError(async (req, res, next) => {
-    if (req.user.status !== 'Approved' || req.user.isverified !== 'Verified'){
-        return next(new ErrorHandler("Company is not verified", 400));
-    }
-    next();
     const job = await Job.findById(req.params.id);
     if (!job) {
         return next(new ErrorHandler("Job not found", 404));
@@ -89,16 +74,9 @@ export const getJobDetails = catchAsyncError(async (req, res, next) => {
     });
 });
 
-
+// post job => /api/v1/job/post
 export const postJob = catchAsyncError(async (req, res, next) => {
-    if (req.user.status !== 'Approved' || req.user.isverified !== 'Verified'){
-        return next(new ErrorHandler("Company is not verified", 400));
-    }
-    next();
-    const { category, title, description, location, fixedSalary, salaryFrom, salaryTo, jobType, postedOn, deadline, expired} = req.body;
-
-    // Fetch all jobs posted by the same company
-    const companyJobs = await Job.find({ company: req.user.id });
+    const { category, title, description, location, fixedSalary, salaryFrom, salaryTo, jobType, postedOn, deadline, expired } = req.body;
 
     if (
         !category ||
@@ -118,6 +96,9 @@ export const postJob = catchAsyncError(async (req, res, next) => {
     if (fixedSalary && (salaryFrom || salaryTo)) {
         return next(new ErrorHandler("Cannot enter both fixed salary and salary range together", 400));
     }
+
+    // Fetch all jobs posted by the same company
+    const companyJobs = await Job.find({ company: req.user.id });
 
     if (salaryFrom && salaryTo) {
         if (salaryFrom >= salaryTo) {

@@ -4,6 +4,7 @@ import Company from "../models/companySchema.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { sendToken } from "../utils/jwtToken.js";
 import Verification from "../models/verificationSchema.js";
+import Student from "../models/studentSchema.js";
 
 // register company => /api/v1/company/register
 export const registerCompany = catchAsyncError(async (req, res, next) => {
@@ -23,11 +24,11 @@ export const registerCompany = catchAsyncError(async (req, res, next) => {
         logoUrlLocalPath = req.files.logo[0].path
     }
     if (!logoUrlLocalPath) {
-        return next(new ErrorHandler('Please upload an image', 400));
+        return next(new ErrorHandler('Please upload a logo', 400));
     }
     const logo = await uploadOnCloudinary(logoUrlLocalPath);
     if (!logo) {
-        return next(new ErrorHandler('Image upload failed', 500));
+        return next(new ErrorHandler('Logo upload failed', 500));
     }
 
 
@@ -54,6 +55,7 @@ export const registerCompany = catchAsyncError(async (req, res, next) => {
 // login company => /api/v1/company/login
 export const loginCompany = catchAsyncError(async (req, res, next) => {
     const { email, password } = req.body;
+    console.log(req.body);
 
     // check if email and password is entered by company
     if (!email || !password) {
@@ -66,7 +68,7 @@ export const loginCompany = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler('Invalid Email or Password', 401));
     }
     // check if password is correct
-    const isPasswordMatched = company.comparePassword(password);
+    const isPasswordMatched = await company.comparePassword(password);
     if (!isPasswordMatched) {
         return next(new ErrorHandler('Invalid Email or Password', 401));
     }
@@ -87,13 +89,12 @@ export const logoutCompany = catchAsyncError(async (req, res, next) => {
     });
 });
 
-// get company profile => /api/v1/company/:id
+// get company profile => /api/v1/company/details
 export const getCompanyProfile = catchAsyncError(async (req, res, next) => {
-    const company = await Company.findById(req.params.id);
+    const company = await Company.findById(req.user.id);
     if (!company) {
-        return next(new ErrorHandler(`Company does not exist with id: ${req.params.id}`, 404));
+        return next(new ErrorHandler('Company not found', 404));
     }
-
     res.status(200).json({
         success: true,
         company
@@ -136,14 +137,14 @@ export const updateCompanyProfile = catchAsyncError(async (req, res, next) => {
 
 
 //apply for verification => /api/v1/company/apply
-//admin will see the verification request, change status to VERIFIED or REJECTED, and isverified to VERIFIED or NOT VERIFIED
+//admin will see the verification request, change status to APPROVED or REJECTED
 export const applyForVerification = catchAsyncError(async (req, res, next) => {
     const { id } = req.user;
     let company = await Company.findById(id);
     if (!company) {
         return next(new ErrorHandler('Company not found', 404));
     }
-    if (company.isverified === 'Verified') {
+    if (company.status === 'Approved') {
         return next(new ErrorHandler('Company is already verified', 400));
     }
     
@@ -155,16 +156,39 @@ export const applyForVerification = catchAsyncError(async (req, res, next) => {
         company: id,
     });
 
-    //status: 'pending'
-    const updatedCompany = await Company.findByIdAndUpdate(id, { status: 'Pending' }, {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false
-    })
+    //change status to 'pending' in db
+    await Company .findByIdAndUpdate(id, {
+        status: 'Pending'
+    });
 
     res.status(200).json({
         success: true,
         message: 'Verification request sent successfully',
         verification
+    });
+});
+
+
+//get all students => /api/v1/company/students
+export const getAllStudents = catchAsyncError(async (req, res, next) => {
+    const students = await Student.find();
+    if (!students) {
+        return next(new ErrorHandler('No students found', 404));
+    }
+    res.status(200).json({
+        success: true,
+        students
+    });
+});
+
+//get one student => /api/v1/company/student/:id
+export const getOneStudent = catchAsyncError(async (req, res, next) => {
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+        return next(new ErrorHandler('Student not found', 404));
+    }
+    res.status(200).json({
+        success: true,
+        student
     });
 });

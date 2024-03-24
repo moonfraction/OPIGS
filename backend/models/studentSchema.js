@@ -28,46 +28,31 @@ const studentSchema = new mongoose.Schema({
         required: [true, 'Phone number is required'],
         unique: true,
     },
-    branch : {
-        type:String,
-        required : [true,'Branch is required']
+    branch: {
+        type: String,
+        required: [true, 'Branch is required']
     },
-    courseName:{
-        type : String,
-        required : [true,'CourseName is required']
+    courseName: {
+        type: String,
+        required: [true, 'CourseName is required']
     },
-    yearOfStudy:{
+    yearOfStudy: {
         type: Number,
-        required : [true,'Enter your yearofGraduation']
+        required: [true, 'Enter your yearofGraduation']
     },
-    CGPA:{
+    CGPA: {
         type: mongoose.Types.Decimal128,
-        required : true,
+        required: true,        
     },
-    // ,CGPA:mongoose.Types.Decimal128  //may cause problem
-    address:{
-        type:String,
-        required : true,
+    address: {
+        type: String,
+        required: true,
     },
-    profilePhoto:{
-        type:"String", //get from cloudinary
+    profilePhoto: {
+        type: String, //get from cloudinary
+        required: [true, 'Upload your profile photo']
     },
-    // resume:{
-    //     type:[String,"Upload your resume"], //get from cloudinary
-    // },
-    alumniContacted: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Alumni"
-        }
-    ],
-    // jobsApplied:[
-    //     {
-    //         type : mongoose.Schema.Types.ObjectId,
-    //         ref : "Job"
-    //     }
-    // ]
-},{timestamps:true})
+}, { timestamps: true })
 
 
 studentSchema.pre('save', async function (next) {
@@ -84,7 +69,7 @@ studentSchema.methods.comparePassword = async function (enteredPassword) {
 }
 
 
-studentSchema.methods.generateAccessToken = function(){
+studentSchema.methods.generateAccessToken = function () {
     return jwt.sign(
         {
             _id: this._id,

@@ -14,7 +14,6 @@ const applicationSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, 'Email is required'],
-        unique: true,
         trim: true,
         validate(value) {
             if (!validator.isEmail(value)) {
@@ -31,7 +30,6 @@ const applicationSchema = new mongoose.Schema({
     phone: {
         type: Number,
         required: [true, 'Phone number is required'],
-        unique: true,
     },
     address: {
         type: String,
@@ -54,10 +52,11 @@ const applicationSchema = new mongoose.Schema({
         ref:"Job",
         required : true
     },
-    companyId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Company",
-        required : true,
+    status: {
+        type: String,
+        default: 'Pending'
+        // enum: ['Approved', 'Rejected'],
+        //dropdown in frontend ['Approved', 'Rejected']
     }
 })
 
