@@ -6,6 +6,52 @@ import Company from '../models/companySchema.js';
 import ToAllNotif from '../models/toAllNotificationSchema.js';
 import Job from '../models/jobSchema.js';
 import GeneralNotification from '../models/generalNotificationSchema.js';
+import { sendToken } from '../utils/jwtToken.js';
+import Admin from '../models/adminSchema.js';
+
+const registerAdmin = catchAsyncError(async (req,res,next) => {
+    const {email, password} = req.body;
+    const newAdmin = await Admin.create({
+        email,
+        password
+    })
+    const accessToken = newAdmin.generateAccessToken();
+    res.status(201).json({
+        success:true,
+        accessToken
+    })
+});
+
+const loginAdmin = catchAsyncError(async (req,res,next) => {
+    const {email, password} = req.body;
+    if(!email || !password){
+        throw new ErrorHandler("Please provide email and password", 400);
+    }
+    const admin = await Admin.findOne({email});
+    if(!admin){
+        throw new ErrorHandler("Invalid credentials", 401);
+    }
+    const isPasswordMatched = await admin.comparePassword(password);
+    if(!isPasswordMatched){
+        throw new ErrorHandler("Invalid credentials", 401);
+    }
+    sendToken(admin, 200, res, "Token for admin generated successfully");
+    res.status(200).json({
+        success:true,
+        admin
+    })
+});
+
+const logoutAdmin = catchAsyncError(async (req,res,next) => {
+    res.cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true
+    });
+    res.status(200).json({
+        success:true,
+        message:"Logged out successfully"
+    })
+})
 
 // the id passed is that of the verification schema object
 const verifyCompany = catchAsyncError(async (req,res,next) => {
@@ -66,4 +112,4 @@ const sendGeneralNotification = catchAsyncError(async (req,res,next) => {
     })
 });
 
-export {verifyCompany, updatePassword,deleteCompanyRequest,sendNotificationOnJobUpdate,sendGeneralNotification};
+export {verifyCompany, updatePassword,deleteCompanyRequest,sendNotificationOnJobUpdate,sendGeneralNotification,registerAdmin,loginAdmin,logoutAdmin};
