@@ -145,7 +145,8 @@ export const uploadProfilePhoto = catchAsyncError (async(req,res,next)=>{
     // }
     let profilePhotoURLLocalPath;
     if(req.files && Array.isArray(req.files.profilePhoto) && req.files.profilePhoto.length > 0 ){
-        profilePhotoURLLocalPath = req.files.profilePhoto[0].path
+        profilePhotoURLLocalPa
+        th = req.files.profilePhoto[0].path
     }
     if (!profilePhotoURLLocalPath) {
         return next (new ErrorHandler("Please upload your profile Photo",401))

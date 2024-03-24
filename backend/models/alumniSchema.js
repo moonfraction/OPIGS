@@ -51,13 +51,7 @@ const alumniSchema = new mongoose.Schema({
         type:String,
         required:[true, 'Uploading an image is mandatory'],
 
-    },
-    requests:[
-        {            
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Student",            
-        }
-    ]
+    }
     }
     ,{timestamps: true}
 );

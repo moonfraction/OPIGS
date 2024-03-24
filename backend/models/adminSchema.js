@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { catchAsyncError } from '../middlewares/catchAsyncError';
+import { catchAsyncError } from '../middlewares/catchAsyncError.js';
 
 const adminSchema = new mongoose.Schema({
     password:{
@@ -23,8 +23,8 @@ adminSchema.methods.generateAccessToken = catchAsyncError(async (req,res) =>{
     });
 })
 
-const Alumni = mongoose.model('Admin', adminSchema);
-export default Alumni;
+const Admin = mongoose.model('Admin', adminSchema);
+export default Admin;
 
 
 
