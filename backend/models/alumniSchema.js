@@ -34,7 +34,7 @@ const alumniSchema = new mongoose.Schema({
         required: [true, 'Password is required'],
         trim: true,
         minLength: [8, 'Password must be at least 8 characters'],
-        maxLength: [30, 'Password must be at most 30 characters']
+        maxLength: [30, 'Password must be at most 30 characters'],
     },
     jobProfile: {
         type: String,
