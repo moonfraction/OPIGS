@@ -4,12 +4,7 @@ import { registerAlumni,loginAlumni, approveRequest, logoutAlumni, getAllAlumni,
 import { isAlumniLoggedIn } from '../middlewares/alumniAuth.js';
 const router = express.Router();
 
-router.route("/register").post(
-    upload.fields([
-        {name: "avatar", maxCount: 1}
-    ]),
-    registerAlumni
-)
+router.route("/register").post(registerAlumni)
 router.route("/login").post(loginAlumni);
 router.route("/logout").post(isAlumniLoggedIn, logoutAlumni);
 router.route("/request/:id").get(isAlumniLoggedIn, seeOneRequest);

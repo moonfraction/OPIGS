@@ -5,12 +5,7 @@ import { isStudentLoggedIn } from '../middlewares/studentAuth.js';
 
 const router = express.Router();
 
-router.route("/register").post(
-    upload.fields([
-        { name: "profilePhoto", maxCount: 1 }
-    ]),
-    registerStudent
-);
+router.route("/register").post(registerStudent);
 router.route("/login").post(loginStudent)
 router.route("/logout").post(isStudentLoggedIn, logoutStudent)
 router.route("/changePassword").post(isStudentLoggedIn, changePassword)

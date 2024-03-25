@@ -7,7 +7,7 @@ import RequestAlumni from "../models/requestAlumniSchema.js";
 
 //register alumni => /api/v1/alumni/register
 const registerAlumni = catchAsyncError(async (req, res) => {
-    const {username,email,password,phone,currentCompany,jobProfile,branch} = req.body;
+    const {username,email,password,phone,currentCompany,jobProfile,branch,avatar} = req.body;
     if(!username || !email || !password || !phone || !currentCompany || !jobProfile || !branch) {
         throw new ErrorHandler("Please enter all the fields", 400);
     }
@@ -20,16 +20,9 @@ const registerAlumni = catchAsyncError(async (req, res) => {
         throw new ErrorHandler("Phone number already exists!", 400);
     }
 
-    let avatarUrlLocalPath;
-    if (req.files && Array.isArray(req.files.avatar) && req.files.avatar.length > 0) {
-        avatarUrlLocalPath = req.files.avatar[0].path
-    }
-    if (!avatarUrlLocalPath) {
-        throw new ErrorHandler('Please upload an image', 400);
-    }
-    const avatar = await uploadOnCloudinary(avatarUrlLocalPath);
-    if (!avatar) {
-        throw new ErrorHandler('Image upload failed', 500);
+    const uploadedImg= await uploadOnCloudinary(avatar);
+    if(!uploadedImg){
+        throw new ErrorHandler("Error while uploading image", 500);
     }
 
     const alumni = await Alumni.create({
@@ -40,9 +33,8 @@ const registerAlumni = catchAsyncError(async (req, res) => {
         currentCompany,
         jobProfile,
         branch,
-        avatar:avatar.url
+        avatar:uploadedImg.url
     });
-    console.log(req.body);
     
     res.json({
         success: true,
