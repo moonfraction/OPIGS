@@ -55,11 +55,11 @@ const Login = () => {
       toast.success(temp.data.message);
       setUser(temp.data.user);
       setAuthorised(true);
-      setEmail("");
-      setPassword("");
       console.log(user,authorised);
     } catch (error) {
       toast.error(error.response.data.message);
+      setEmail("");
+      setPassword("");
     }
   };
 
@@ -100,7 +100,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button type="submit" onClick={handleLogin}>
+            <button type="submit" onClick={(e) => handleLogin(e)}>
               Login
             </button>
           </form>

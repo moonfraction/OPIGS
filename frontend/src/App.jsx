@@ -5,6 +5,7 @@ import Login from "./Pages/Login";
 import './style/common.css';
 import { Toaster } from "react-hot-toast";
 import Register from "./Pages/Register";
+import NotFound from "./Pages/NotFound";
 import toast from "react-hot-toast";
 
 const Context = React.createContext();
@@ -17,16 +18,17 @@ const App = () => {
   
   useEffect(() => {
     if (!authorised) {
-      navigateTo("/register");
+      navigateTo("/login");
     }
   },[]);
 
   return (
     <Context.Provider value={{ user, setUser, authorised, setAuthorised }}>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route index path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />          
         <Route path="/register" element={<Register />} />          
+        <Route path="*" element={<NotFound />} />          
       </Routes>
       <Toaster />
     </Context.Provider>
