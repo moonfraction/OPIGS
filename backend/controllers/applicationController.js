@@ -6,7 +6,7 @@ import Job from "../models/jobSchema.js";
 import Student from "../models/studentSchema.js";
 import Company from "../models/companySchema.js";
 
-// get all applications for a company => /api/v1/applications/company
+// get all applications for a company => /api/v1/application/company
 export const companyGetAllApplications = catchAsyncError(async (req, res, next) => {
     const companyID =req.user._id || req.user.id;
     if (!companyID) {
@@ -16,13 +16,20 @@ export const companyGetAllApplications = catchAsyncError(async (req, res, next) 
     if (!company) {
         return next(new ErrorHandler("Company not found", 404));
     }
-    // this will be company id
-    //search all applications and for each application find the jobId, then check if the jobId belongs to the company
     const applications = await Application.find({});
+    if (!applications) {
+        return next(new ErrorHandler("No applications found", 404));
+    }
     let companyApplications = [];
     for (let i = 0; i < applications.length; i++) {
         const application = applications[i];
+        if (!application) {
+            return next(new ErrorHandler("No applications found", 404));
+        }
         const job = await Job.findById(application.jobId);
+        if (!job) {
+            return next(new ErrorHandler("JOb reated to application not found", 404));
+        }
         if (job.company.toString() === companyID) {
             companyApplications.push(application);
         }
@@ -41,7 +48,7 @@ export const companyGetSingleApplication = catchAsyncError(async (req, res, next
     }
     const job = await Job.findById(application.jobId);
     if (!job) {
-        return next(new ErrorHandler("Job not found", 404));
+        return next(new ErrorHandler("Job related to application not found", 404));
     }
     const companyID = req.user._id || req.user.id;
     if (job.company.toString() !== companyID) {
@@ -61,7 +68,7 @@ export const companyChangeApplicationStatus = catchAsyncError(async (req, res, n
     }
     const job = await Job.findById(application.jobId);
     if (!job) {
-        return next(new ErrorHandler("Job not found", 404));
+        return next(new ErrorHandler("Job related to application not found", 404));
     }
     const companyID = req.user._id || req.user.id;
     if (job.company.toString() !== companyID) {
@@ -83,14 +90,6 @@ export const companyChangeApplicationStatus = catchAsyncError(async (req, res, n
 // get all applications for a job => /api/v1/applications/student
 export const studentGetAllApplications = catchAsyncError(async (req, res, next) => {
     const applicantId = req.user._id || req.user.id;
-    if (!applicantId) {
-        return next(new ErrorHandler("Login to view applications", 401));
-    }
-    const student = await Student.findById(applicantId);
-    if (!student) {
-        return next(new ErrorHandler("Only students can view applications", 400));
-    }
-
     const applications = await Application.find({ applicantId });
     res.status(200).json({
         success: true,

@@ -3,7 +3,7 @@ import ErrorHandler from "./error.js";
 import jwt from "jsonwebtoken";
 import Admin from "../models/adminSchema.js";
 
-export const isAdminLogggedIn = catchAsyncError(async (req, res, next) => {
+export const isAdminLoggedIn = catchAsyncError(async (req, res, next) => {
     const {token} = req.cookies;
     if(!token) {
         return next(new ErrorHandler("User not authorized to access this route", 401));

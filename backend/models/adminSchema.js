@@ -21,14 +21,12 @@ adminSchema.pre("save", async function(next){
     this.password = await bcrypt.hash(this.password, 10);
 });
 
-adminSchema.methods.generateAccessToken = catchAsyncError(async (req,res) =>{
-    return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRY
-    });
-})
+adminSchema.methods.generateAccessToken = function(){
+    return jwt.sign({id: this._id}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY });
+}
 
-adminSchema.methods.comparePassword = async (enteredPassword) =>{
-    return await bcrypt.compare(enteredPassword, this.password);
+adminSchema.methods.comparePassword = async function (enteredPassword) {
+    return bcrypt.compare(enteredPassword, this.password);
 }
 
 const Admin = mongoose.model('Admin', adminSchema);

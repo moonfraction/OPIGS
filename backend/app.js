@@ -21,7 +21,6 @@ app.use(cors({
     credentials: true,
 }));
 
-dbConnection();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
@@ -35,6 +34,7 @@ app.use('/api/v1/job', jobRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/application', applicationRouter);
 
+dbConnection();
 app.use(errorMiddleware);
 
 

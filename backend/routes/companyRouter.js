@@ -1,9 +1,8 @@
 import express from 'express';
 import { upload } from '../middlewares/multer.js';
-import {isAuthorized} from "../middlewares/auth.js";
-import { registerCompany,loginCompany, logoutCompany, getCompanyProfile, updateCompanyProfile, applyForVerification, getAllStudents, getOneStudent} from '../controllers/companyController.js';
+import { registerCompany,loginCompany, logoutCompany, getCompanyProfile, updateCompanyProfile, changePassword, applyForVerification, getAllStudents, getOneStudent} from '../controllers/companyController.js';
 const router = express.Router();
-import { isCompanyVerified } from '../middlewares/verification.js';
+import { isCompanyLoggedIn, isCompanyLoggedInandVerified } from '../middlewares/companyAuth.js';
 
 router.route("/register").post(
     upload.fields([
@@ -12,15 +11,16 @@ router.route("/register").post(
     registerCompany
 );
 router.route("/login").post(loginCompany);
-router.route("/logout").post(isAuthorized, logoutCompany);
-router.route("/details").get(isAuthorized, getCompanyProfile);
-router.route("/update").put(isAuthorized,upload.fields
+router.route("/logout").post(isCompanyLoggedIn, logoutCompany);
+router.route("/details").get(isCompanyLoggedIn, getCompanyProfile);
+router.route("/update").put(isCompanyLoggedIn,upload.fields
     ([
         {name: "logo", maxCount: 1}
     ]),updateCompanyProfile
     );
-router.route("/apply").post(isAuthorized, applyForVerification);
-router.route("/students").get(isAuthorized, isCompanyVerified, getAllStudents);
-router.route("/student/:id").get(isAuthorized, isCompanyVerified, getOneStudent);
+router.route("/changePassword").post(isCompanyLoggedIn, changePassword);
+router.route("/apply").post(isCompanyLoggedIn, applyForVerification);
+router.route("/students").get(isCompanyLoggedInandVerified, getAllStudents);
+router.route("/student/:id").get(isCompanyLoggedInandVerified, getOneStudent);
 
 export default router;

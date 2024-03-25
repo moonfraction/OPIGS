@@ -1,17 +1,24 @@
 import express from 'express';
-import {upload} from '../middlewares/multer.js';
-import { isAuthorized } from '../middlewares/auth.js';
-import {registerStudent,loginStudent,logoutStudent,changePassword, getStudentProfile} from "../controllers/studentController.js"
+import { upload } from '../middlewares/multer.js';
+import { registerStudent, loginStudent, logoutStudent, changePassword, getStudentProfile, updateStudentProfile, requestAlumni} from "../controllers/studentController.js"
+import { isStudentLoggedIn } from '../middlewares/studentAuth.js';
 
 const router = express.Router();
 
 router.route("/register").post(
-    upload.single("profilePhoto"),
+    upload.fields([
+        { name: "profilePhoto", maxCount: 1 }
+    ]),
     registerStudent
 );
 router.route("/login").post(loginStudent)
-router.route("/logout").post(isAuthorized,logoutStudent)
-router.route("/changePassword").post(isAuthorized,changePassword)
-router.route("/details").get(isAuthorized,getStudentProfile)
+router.route("/logout").post(isStudentLoggedIn, logoutStudent)
+router.route("/changePassword").post(isStudentLoggedIn, changePassword)
+router.route("/details").get(isStudentLoggedIn, getStudentProfile)
+router.route("/update").put(isStudentLoggedIn, upload.fields([
+    { name: "profilePhoto", maxCount: 1 }
+]), updateStudentProfile)
+router.route("/requestAlumni/:alum_id").post(isStudentLoggedIn, requestAlumni)
+
 
 export default router;
