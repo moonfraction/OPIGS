@@ -21,10 +21,11 @@ export const registerStudent = catchAsyncError( async (req, res) => {
     if (CGPA < 0 || CGPA > 10) {
         throw new ErrorHandler("CGPA must be between 0 and 10", 400);
     }
-
+    // console.log(req.file);
     let profilePhotoURLLocalPath;
-    if(req.files && Array.isArray(req.files.profilePhoto) && req.files.profilePhoto.length > 0 ){
-        profilePhotoURLLocalPath = req.files.profilePhoto[0].path
+    if(req.file){
+        // console.log(req.file);
+        profilePhotoURLLocalPath = req.file;
     }
     if (!profilePhotoURLLocalPath) {
         throw new ErrorHandler("Please upload your profile photo",401)
@@ -74,7 +75,7 @@ export const loginStudent = catchAsyncError(async (req, res) =>{
     throw new ErrorHandler("Invalid email or password",401)
     }
     sendToken(student, 200, res, "Student logged in successfully!")
-
+    
 })
 
 //logout student => /api/v1/student/logout

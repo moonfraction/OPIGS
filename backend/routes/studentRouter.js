@@ -6,9 +6,7 @@ import {registerStudent,loginStudent,logoutStudent,changePassword, getStudentPro
 const router = express.Router();
 
 router.route("/register").post(
-    upload.fields([
-        {name: "profilePhoto", maxCount: 1}
-    ]),
+    upload.single("profilePhoto"),
     registerStudent
 );
 router.route("/login").post(loginStudent)
