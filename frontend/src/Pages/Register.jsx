@@ -7,10 +7,6 @@ import AlumniRegister from "../Components/AlumniRegister";
 import CompanyRegister from "../Components/CompanyRegister";
 
 const Register = () => {
-  const { user, setUser, authorised, setAuthorised } = useContext(Context);
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [role, setRole] = useState("student");
   return (
     <div className="register-body">

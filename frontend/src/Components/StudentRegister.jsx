@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const StudentRegister = () => {
+  const navigateTo = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,13 +17,21 @@ const StudentRegister = () => {
   const [profilePhoto, setImage] = useState("");
 
   const handleFileUpload = (e) => {
-    const image = e.target.files[0];
-    setImage(image);
+    const file = e.target.files[0];
+    sendFileToBase(file);
   };
+
+  const sendFileToBase = (file) =>{
+    const read = new FileReader();
+    read.readAsDataURL(file);
+    read.onload = () => {
+      const base64 = read.result;
+      setImage(base64);
+    }
+  }
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    console.log(profilePhoto);
     let temp = new FormData();
     temp.append("name", name);
     temp.append("email", email);
@@ -46,6 +56,7 @@ const StudentRegister = () => {
         }
       );
       toast.success(resp.data.message);
+      navigateTo("/login");
       setName("");
       setEmail("");
       setPassword("");
@@ -58,11 +69,12 @@ const StudentRegister = () => {
       setAvatar("");
     } catch (err) {
       toast.error(err.response.data.message);
+      
     }
   };
 
   return (
-    <form method="POST" action="/api/v1/student/register" enctype="multipart/form-data">
+    <form method="POST" action="/api/v1/student/register">
       <input
         type="text"
         placeholder="Name"
@@ -117,8 +129,8 @@ const StudentRegister = () => {
         value={cgpa}
         onChange={(e) => setCgpa(e.target.value)}
       />
-      <input id="file-upload" name="profilePhoto" type="file" accept=".png, .jpeg" onChange={handleFileUpload}/>
-      <button type="submit" onClick={handleRegister}>
+      <input id="file-upload" name="profilePhoto" type="file" accept=".png, .jpeg, .jpg" onChange={handleFileUpload}/>
+      <button type="submit" onClick={(e) => handleRegister(e)}>
         Register
       </button>
     </form>
