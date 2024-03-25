@@ -10,10 +10,11 @@ import jobRouter from './routes/jobRouter.js';
 import {dbConnection} from './database/dbConnection.js';
 import {errorMiddleware} from './middlewares/error.js';
 import adminRouter from './routes/adminRouter.js';
+import { upload } from './middlewares/multer.js';
+import bodyParser from 'body-parser';
 
 const app = express();
 dotenv.config({path: "./config/config.env"});
-
 app.use(cors({
     origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST","DELETE","PUT"],
@@ -21,6 +22,7 @@ app.use(cors({
 }));
 
 
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

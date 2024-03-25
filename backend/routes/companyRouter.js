@@ -4,12 +4,7 @@ import { registerCompany,loginCompany, logoutCompany, getCompanyProfile, updateC
 const router = express.Router();
 import { isCompanyLoggedIn, isCompanyLoggedInandVerified } from '../middlewares/companyAuth.js';
 
-router.route("/register").post(
-    upload.fields([
-        {name: "logo", maxCount: 1}
-    ]),
-    registerCompany
-);
+router.route("/register").post(registerCompany);
 router.route("/login").post(loginCompany);
 router.route("/logout").post(isCompanyLoggedIn, logoutCompany);
 router.route("/details").get(isCompanyLoggedIn, getCompanyProfile);

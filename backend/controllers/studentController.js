@@ -8,8 +8,8 @@ import RequestAlumni from "../models/requestAlumniSchema.js";
 //register student => /api/v1/student/register
 export const registerStudent = catchAsyncError( async (req, res) => {
     
-    const {name,email,password,phone,branch,courseName,yearOfStudy,CGPA,address} = req.body
-    if(!name || !email || !phone || !courseName || !branch|| !password || !yearOfStudy ||!CGPA ||!address) {
+    const {name,email,password,phone,branch,courseName,yearOfStudy,CGPA,address,profilePhoto} = req.body
+    if(!name || !email || !phone || !courseName || !branch|| !password || !yearOfStudy ||!CGPA ||!address || !profilePhoto) {
         throw new ErrorHandler("Please enter all the fields", 400);
     }
 
@@ -29,20 +29,10 @@ export const registerStudent = catchAsyncError( async (req, res) => {
         throw new ErrorHandler("CGPA must be between 0 and 10", 400);
     }
 
-    //upload profile photo
-    let profilePhotoURLLocalPath;
-    if(req.files && Array.isArray(req.files.profilePhoto) && req.files.profilePhoto.length > 0 ){
-        profilePhotoURLLocalPath = req.files.profilePhoto[0].path
+    const uploadedImg = await uploadOnCloudinary(profilePhoto);
+    if(!uploadedImg){
+        throw new ErrorHandler("Error while uploading image", 500);
     }
-    if (!profilePhotoURLLocalPath) {
-        throw new ErrorHandler("Please upload your profile photo",401)
-    }
-
-    const profilePhoto = await uploadOnCloudinary(profilePhotoURLLocalPath);
-    if (!profilePhoto) {
-        throw new ErrorHandler("Error while uploading profile photo",500);
-    }
-
     //register student
     const student = await Student.create({
         name,
@@ -54,7 +44,7 @@ export const registerStudent = catchAsyncError( async (req, res) => {
         yearOfStudy,
         CGPA,
         address,
-        profilePhoto: profilePhoto.url
+        profilePhoto: uploadedImg.url
     })
     return res.status(201).json({
         success: true,
@@ -82,7 +72,7 @@ export const loginStudent = catchAsyncError(async (req, res) =>{
     throw new ErrorHandler("Invalid email or password",401)
     }
     sendToken(student, 200, res, "Student logged in successfully!")
-
+    
 })
 
 //logout student => /api/v1/student/logout
