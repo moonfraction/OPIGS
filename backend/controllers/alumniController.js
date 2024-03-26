@@ -76,10 +76,12 @@ const logoutAlumni = catchAsyncError((async (req,res) => {
 
 //see all requests => /api/v1/alumni/requests
 const seeAllRequests = catchAsyncError(async (req,res) => {
-    const requests = await RequestAlumni.find({});
-    if(!requests){
-        throw new ErrorHandler("No requests available", 404);
+    const alumId= req.user._id || req.user.id;
+    const alumni = await Alumni.findById(alumId);
+    if(!alumni){
+        throw new ErrorHandler("Alumni not found", 404);
     }
+    const requests = await RequestAlumni.find({alumni:alumId});
     res.status(200).json({
         success:true,
         message:"Requests fetched successfully",
@@ -90,15 +92,24 @@ const seeAllRequests = catchAsyncError(async (req,res) => {
 //see one request => /api/v1/alumni/request/:id
 const seeOneRequest = catchAsyncError(async (req,res) => {
     const {id} = req.params;
+    const alumId= req.user._id || req.user.id;
+    const alumni = await Alumni.findById(alumId);
+    if(!alumni){
+        throw new ErrorHandler("Alumni not found", 404);
+    }
     const request = await RequestAlumni.findById(id);
     if(!request){
         throw new ErrorHandler("Request not found", 404);
+    }
+    if(request.alumni.toString() !== alumId.toString()){
+        throw new ErrorHandler("You are not authorized to view this request", 401);
     }
     res.status(200).json({
         success:true,
         message:"Request fetched successfully",
         request
     });
+
 })
 
 //approve request => /api/v1/alumni/request/:id/approve
