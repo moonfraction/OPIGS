@@ -210,3 +210,22 @@ export const requestAlumni = catchAsyncError(async(req,res)=>{
         request
     })
 });
+
+//approved alumni request => /api/v1/student/approvedRequest
+export const approvedRequest = catchAsyncError(async(req,res)=>{
+    const studentId = req.user._id || req.user.id;
+    const student = await Student.findById(studentId)
+    if (!student) {
+        throw new ErrorHandler("Student not found",404)
+    }
+    let request = await RequestAlumni.find({student:studentId})
+    if(!request){
+        throw new ErrorHandler("Request not found",404)
+    }
+    request = request.filter(req => req.status === true)
+    res.status(200).json({
+        success:true,
+        message:"Approved requests fetched successfully",
+        request
+    })
+});

@@ -29,7 +29,7 @@ const jobSchema = new mongoose.Schema({
         maxlength: [50, 'Job location must be at most 50 characters long']
     },
     salary: {
-        type: Number,
+        type: String,
         trim: true,
         minLength: [5, 'Fixed Salary must be at least 5 digits'],
         maxLength: [10, 'Fixed Salary must not exceed 10 digits']
