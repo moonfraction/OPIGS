@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.route("/register").post(registerStudent);
 router.route("/login").post(loginStudent)
-router.route("/logout").post(isStudentLoggedIn, logoutStudent)
+router.route("/logout").post( isStudentLoggedIn,logoutStudent)
 router.route("/changePassword").post(isStudentLoggedIn, changePassword)
 router.route("/details").get(isStudentLoggedIn, getStudentProfile)
 router.route("/update").put(isStudentLoggedIn, upload.fields([

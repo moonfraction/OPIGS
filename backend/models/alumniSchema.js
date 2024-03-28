@@ -71,7 +71,7 @@ alumniSchema.methods.comparePassword = async function (enteredPassword) {
 
 // Generate a jwt token for the alumni for authoriztion
 alumniSchema.methods.generateAccessToken = function () {
-    return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
+    return jwt.sign({ _id: this._id,role: "alumni" }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY
     });
 }

@@ -43,7 +43,6 @@ const StudentRegister = () => {
     temp.append("address", address);
     temp.append("CGPA", cgpa);
     temp.append("profilePhoto", profilePhoto);
-
     try {
       const resp = await axios.post(
         "http://localhost:4000/api/v1/student/register",

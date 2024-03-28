@@ -9,6 +9,7 @@ import RequestAlumni from "../models/requestAlumniSchema.js";
 export const registerStudent = catchAsyncError( async (req, res) => {
     
     const {name,email,password,phone,branch,courseName,yearOfStudy,CGPA,address,profilePhoto} = req.body
+    console.log(profilePhoto);
     if(!name || !email || !phone || !courseName || !branch|| !password || !yearOfStudy ||!CGPA ||!address || !profilePhoto) {
         throw new ErrorHandler("Please enter all the fields", 400);
     }
@@ -77,7 +78,7 @@ export const loginStudent = catchAsyncError(async (req, res) =>{
 
 //logout student => /api/v1/student/logout
 export const logoutStudent = catchAsyncError(async(req, res) => {
-    res.cookie("token",null,{
+    res.cookie("token","",{
         expires:new Date(Date.now()),
         httpOnly:true
     });
@@ -153,7 +154,6 @@ export const updateStudentProfile = catchAsyncError(async(req, res) => {
 
 
 });
-
 
 //change password => /api/v1/student/changePassword
 export const changePassword = catchAsyncError(async(req, res) => {

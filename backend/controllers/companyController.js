@@ -223,8 +223,8 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
 //apply for verification => /api/v1/company/apply
 //admin will see the verification request, change status to APPROVED or REJECTED
 export const applyForVerification = catchAsyncError(async (req, res, next) => {
-  const { id } = req.user;
-  let company = await Company.findById(id);
+  const { _id } = req.user;
+  let company = await Company.findById(_id);
   if (!company) {
     return next(new ErrorHandler("Company not found", 404));
   }
@@ -232,16 +232,16 @@ export const applyForVerification = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Company is already approved", 400));
   }
 
-  let verification = await Verification.findOne({ company: id });
+  let verification = await Verification.findOne({ company: _id });
   if (verification) {
     return next(new ErrorHandler("Verification request already sent", 400));
   }
   verification = await Verification.create({
-    company: id,
+    company: _id,
   });
 
   //change status to 'pending' in db
-  await Company.findByIdAndUpdate(id, {
+  await Company.findByIdAndUpdate(_id, {
     status: "Pending",
   });
 
