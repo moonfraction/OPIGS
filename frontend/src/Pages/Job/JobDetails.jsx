@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../App";
+import "../../style/common.css";
+import "../../style/job.css";
 const JobDetails = () => {
   const { id } = useParams();
   const [job, setJob] = useState({});
@@ -11,7 +13,9 @@ const JobDetails = () => {
   const { isAuthorised, user } = useContext(Context);
 
   useEffect(() => {
-    axios
+    const fetchJobDetail = async () =>{
+      try {
+        axios
       .get(`http://localhost:4000/api/v1/job/${id}`, {
         withCredentials: true,
       })
@@ -21,16 +25,16 @@ const JobDetails = () => {
       .catch((error) => {
         navigateTo("/notfound");
       });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchJobDetail();
   }, []);
 
-  if (!isAuthorised) {
-    navigateTo("/login");
-  }
-
   return (
-    <section className="jobDetail page">
+    <section className="jobDetail">
       <div className="container">
-        <h3>Job Details</h3>
         <div className="banner">
           <p>
             Title: <span> {job.title}</span>
@@ -42,23 +46,18 @@ const JobDetails = () => {
             Location: <span>{job.location}</span>
           </p>
           <p>
-            Company:<span>{job.company}</span>
+            Company: <span>{job.company}</span>
           </p>
           <p>
             Description: <span>{job.description}</span>
           </p>
           <p>
-            Job Posted On: <span>{job.postedOn}</span>
+            Deadline: <span>{job.deadline}</span>
           </p>
           <p>
-            Salary:<span>{job.salary}</span>
+            Salary: <span>{job.salary}</span>
           </p>
-          {/* {user && user.role === "Employer" ? (
-            <></>
-          ) : (
-            <Link to={`/application/${job._id}`}>Apply Now</Link>
-          )} */}
-          <Link to ={`application/${job._id}`}>Apply Now</Link>
+          <Link to ={`/api/v1/student/postApplication/${job._id}`}>Apply Now</Link>
         </div>
       </div>
     </section>

@@ -3,6 +3,8 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Jobs from "./Pages/Job/Jobs.jsx";
+import JobDetails from "./Pages/Job/JobDetails.jsx";
+import Application from "./Pages/Application/Application.jsx"
 import "./style/common.css";
 import { Toaster } from "react-hot-toast";
 import Register from "./Pages/Register";
@@ -58,6 +60,9 @@ const App = () => {
       <Routes>
         <Route path="/api/v1/student" element={<StudentDashboard />}>
           <Route path="alumni" element={<ViewAlumni />} />
+          <Route path="jobs" element = {<Jobs/>} />
+          <Route path ="jobDetails/:id" element = {<JobDetails/>}/>
+          <Route path ="postApplication/:id" element ={<Application/>} />
         </Route>
         <Route path="/api/v1/alumni" element={<AlumniDashboard />} />
         <Route path="/api/v1/company" element={<CompanyDashboard />} />

@@ -24,20 +24,20 @@ const jobSchema = new mongoose.Schema({
     location: {
         type: String,
         required: [true, 'Please enter Job location'],
-        trim: true,
-        minlength: [3, 'Job location must be at least 3 characters long'],
-        maxlength: [50, 'Job location must be at most 50 characters long']
+        trim: true
     },
     salary: {
         type: String,
-        trim: true,
-        minLength: [5, 'Fixed Salary must be at least 5 digits'],
-        maxLength: [10, 'Fixed Salary must not exceed 10 digits']
+        trim: true
     },
     company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Company',
         required: [true, 'Please enter Company']
+    },
+    companyName:{
+        type:String,
+        default:""
     },
     jobType: {
         type: String,

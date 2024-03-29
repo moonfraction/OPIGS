@@ -18,18 +18,16 @@
     flex-wrap: wrap;
     width: 100%;
     gap: 30px;
-    justify-content: center;
+    /* justify-content: center; */
     padding: 30px 0;
 }
 .jobs .container .banner .card{
-  border-radius: 20px;
-  background-color: rgb(230, 229, 226) ;
-}
-.jobs .container .banner .card:hover {
     transition: all 0.3s;
     box-shadow: 2px 10px 10px -1px rgba(0, 0, 0, 0.17);
-    -webkit-box-shadow: 2px 10px 10px -1px rgba(0, 0, 0, 0.17);
-    -moz-box-shadow: 2px 10px 10px -1px rgba(0, 0, 0, 0.17);
+    -webkit-box-shadow: 2px 10px 10px -3px rgba(0, 0, 0, 0.17);
+    -moz-box-shadow: 2px 10px 10px -3px rgba(0, 0, 0, 0.17);
+    background-color: rgb(230, 229, 226) ;
+    padding:10px;
 }
 .jobs .container .banner .card p:first-child {
     font-weight: bold;
@@ -39,6 +37,10 @@
     font-size: 1.3rem;
     color: gray;
   }
+  .jobs .container .banner .card p:nth-child(3){
+    font-size:1rem;
+    color:#18191c
+  }
   .jobs .container .banner .card p:last-child {
     font-size: 1rem;
     color: gray;
@@ -46,13 +48,18 @@
   .jobs .container .banner .card a {
     text-decoration: none;
     padding: 7px;
-    font-size: 20px;
+    font-size: 16px;
     color: #e0f1ec;
-    background: rgb(56, 168, 238);
-    width: 100%;
+    background: rgb(48, 159, 243);
+    width: 60%;
     display: block;
     text-align: center;
-    border-radius: 10px;
+    border-radius: 30px;
+    left:10%;
+    margin-left:16%;
+  }
+  .jobs .container .banner .card a:hover{
+    font-weight:bolder;
   }
   @media (max-width: 1520px) {
     .jobs .container {
@@ -80,7 +87,6 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
   .jobDetail .container .banner {
     width: 100%;
@@ -89,26 +95,31 @@
     display: flex;
     flex-direction: column;
     gap: 25px;
-    justify-content: center;
   }
   .jobDetail .container .banner p {
-    font-weight: bold;
-    color: #2d5649;
+    font-size:1.25rem;
+    color: var(--grey-dark);
+    font-weight:bolder;
   }
   .jobDetail .container .banner p span {
     color: #18191c;
-    font-weight: 400;
+    font-size:1.25rem;
+    font-weight:400;
   }
   .jobDetail .container .banner a {
-    background-color: #2d5649;
+    background-color: #04AA6D;
     color: rgb(233, 249, 255);
-    font-size: 20px;
+    font-size: 1rem;
     font-weight: 400;
     border: none;
     padding: 12px 30px;
     text-decoration: none;
     margin-top: 10px;
     width: fit-content;
+    border-radius:30px;
+  }
+  .jobDetail .container .banner a:hover{
+    background-color:#04aa6dd8;
   }
   @media (max-width: 1520px) {
     .jobDetail .container {

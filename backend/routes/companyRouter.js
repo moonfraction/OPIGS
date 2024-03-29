@@ -18,4 +18,5 @@ router.route("/apply").post(isCompanyLoggedIn, applyForVerification);
 router.route("/students").get(isCompanyLoggedInandVerified, getAllStudents);
 router.route("/student/:id").get(isCompanyLoggedInandVerified, getOneStudent);
 
+
 export default router;
