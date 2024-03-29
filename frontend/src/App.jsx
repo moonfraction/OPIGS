@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
+import Jobs from "./Pages/Job/Jobs.jsx";
 import './style/common.css';
 import { Toaster } from "react-hot-toast";
 import Register from "./Pages/Register";
@@ -16,11 +17,11 @@ const App = () => {
 
   const navigateTo = useNavigate();
   
-  useEffect(() => {
-    if (!authorised) {
-      navigateTo("/login");
-    }
-  },[]);
+  // useEffect(() => {
+  //   if (!authorised) {
+  //     navigateTo("/login");
+  //   }
+  // },[]);
 
   return (
     <Context.Provider value={{ user, setUser, authorised, setAuthorised }}>
@@ -28,7 +29,8 @@ const App = () => {
         <Route index path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />          
         <Route path="/register" element={<Register />} />          
-        <Route path="*" element={<NotFound />} />          
+        <Route path="*" element={<NotFound />} /> 
+        <Route path="/job/getall" element={<Jobs/>}/>      
       </Routes>
       <Toaster />
     </Context.Provider>

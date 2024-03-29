@@ -2,7 +2,7 @@ import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import Job from "../models/jobSchema.js";
 
-// Get all jobs => /api/v1/jobs
+// Get all jobs => /api/v1/job/alljobs
 export const getAllJobs = catchAsyncError(async (req, res, next) => {
     const jobs = await Job.find({ expired: false });
     res.status(200).json({
