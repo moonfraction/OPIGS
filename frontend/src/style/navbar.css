@@ -1,0 +1,47 @@
+.navbar-container{
+    width: 100vw;
+    height: 10%;
+    background-color: var(--grey-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--white);
+}
+.opigs-text{
+    margin-left: 20px;
+}
+
+.nav-right{
+    height: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 20%;
+    margin-right: 20px;
+}
+
+.nav-right .user-photo{
+    margin-right: 30px;
+    height: 80%;
+    width: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.nav-right .user-photo img{
+    height: 100%;
+    width: 100%;
+}
+
+.logout-button{
+    height: 75%;
+    width: 50%;
+    background-color: var(--white);
+    color: var(--grey-dark);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 1.25rem;
+    font-weight: bold;
+}

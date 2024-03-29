@@ -22,7 +22,7 @@ adminSchema.pre("save", async function(next){
 });
 
 adminSchema.methods.generateAccessToken = function(){
-    return jwt.sign({id: this._id}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY });
+    return jwt.sign({_id: this._id, role: "admin"}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY });
 }
 
 adminSchema.methods.comparePassword = async function (enteredPassword) {

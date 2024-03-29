@@ -12,6 +12,7 @@ import {errorMiddleware} from './middlewares/error.js';
 import adminRouter from './routes/adminRouter.js';
 import { upload } from './middlewares/multer.js';
 import bodyParser from 'body-parser';
+import getUserLoggedInRouter from './routes/getUserLoggedInRouter.js';
 
 const app = express();
 dotenv.config({path: "./config/config.env"});
@@ -26,7 +27,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
+app.use('', getUserLoggedInRouter);
 app.use('/api/v1/alumni', alumniRouter);
 app.use('/api/v1/student',studentRouter);
 app.use('/api/v1/company', companyRouter);

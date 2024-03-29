@@ -87,7 +87,7 @@ companySchema.methods.comparePassword = async function (enteredPassword) {
 
 // Generate JWT token
 companySchema.methods.generateAccessToken = function () {
-    return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY });
+    return jwt.sign({ _id: this._id, role: "company" }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY });
 };
 
 

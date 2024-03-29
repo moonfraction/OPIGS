@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.route('/register').post(registerAdmin);
 router.route('/login').post(loginAdmin);
-router.route('/logout').post(isAdminLoggedIn, logoutAdmin);
+router.route('/logout').get(isAdminLoggedIn, logoutAdmin);
 router.route('/verify/:req_id').put(isAdminLoggedIn, verifyCompany);
 router.route('/delete/:req_id').delete(isAdminLoggedIn, deleteCompanyRequest);
 router.route('/update-password').put(isAdminLoggedIn, updatePassword);

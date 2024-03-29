@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import "../style/register.css";
 import { Link } from "react-router-dom";
-import { Context } from "../App";
+import { Context } from "../main";
 import StudentRegister from "../Components/StudentRegister";
 import AlumniRegister from "../Components/AlumniRegister";
 import CompanyRegister from "../Components/CompanyRegister";

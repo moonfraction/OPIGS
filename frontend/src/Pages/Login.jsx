@@ -1,21 +1,23 @@
 import React, { useContext, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import "../style/login.css";
 import "../style/common.css";
-import { Context } from "../App";
+import { Context } from "../main";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const Login = () => {
-  const { user, setUser, authorised, setAuthorised } = useContext(Context);
-
+  const { setUser, setAuthorised, setTypeUser, typeUser } = useContext(Context);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("student");
 
+  const navigateTo = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     let temp;
+    let roleSet;
     try {
       if (role === "student") {
         console.log(email, password);
@@ -29,6 +31,7 @@ const Login = () => {
             },
           }
         );
+        roleSet = "student";
       } else if (role === "alumni") {
         temp = await axios.post(
           "http://localhost:4000/api/v1/alumni/login",
@@ -40,6 +43,7 @@ const Login = () => {
             },
           }
         );
+        roleSet = "alumni";
       } else if (role === "company") {
         temp = await axios.post(
           "http://localhost:4000/api/v1/company/login",
@@ -51,11 +55,14 @@ const Login = () => {
             },
           }
         );
+        roleSet = "company";
       }
-      toast.success(temp.data.message);
-      setUser(temp.data.user);
+      const showData = await temp.data;
+      setUser(showData.user);
       setAuthorised(true);
-      console.log(user,authorised);
+      setTypeUser(roleSet);
+      toast.success(showData.message);      
+      navigateTo(`/api/v1/${roleSet}`);
     } catch (error) {
       toast.error(error.response.data.message);
       setEmail("");

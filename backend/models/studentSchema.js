@@ -73,6 +73,7 @@ studentSchema.methods.generateAccessToken = function () {
     return jwt.sign(
         {
             _id: this._id,
+            role: "student"
         },
         process.env.ACCESS_TOKEN_SECRET,
         {

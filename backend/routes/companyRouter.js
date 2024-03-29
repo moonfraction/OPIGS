@@ -6,7 +6,7 @@ import { isCompanyLoggedIn, isCompanyLoggedInandVerified } from '../middlewares/
 
 router.route("/register").post(registerCompany);
 router.route("/login").post(loginCompany);
-router.route("/logout").post(isCompanyLoggedIn, logoutCompany);
+router.route("/logout").get(isCompanyLoggedIn, logoutCompany);
 router.route("/details").get(isCompanyLoggedIn, getCompanyProfile);
 router.route("/update").put(isCompanyLoggedIn,upload.fields
     ([
