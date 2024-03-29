@@ -36,11 +36,12 @@
 .logout-button{
     height: 75%;
     width: 50%;
-    background-color: var(--grey-light);
-    color: var(--white);
+    background-color: var(--white);
+    color: var(--grey-dark);
     border: none;
     border-radius: 5px;
     cursor: pointer;
     border-radius: 20px;
     font-size: 1.25rem;
+    font-weight: bold;
 }

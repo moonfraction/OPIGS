@@ -7,6 +7,7 @@ import Admin from "../models/adminSchema.js";
 import ErrorHandler from "../middlewares/error.js";
 
 const getUserLoggedIn = catchAsyncError(async (req,res) => {
+    // console.log(req);
     const token = req.cookies.token;
     if(!token){
         return res.status(400).json({

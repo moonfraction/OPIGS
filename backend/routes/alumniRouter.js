@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.route("/register").post(registerAlumni)
 router.route("/login").post(loginAlumni);
-router.route("/logout").post(isAlumniLoggedIn, logoutAlumni);
+router.route("/logout").get(isAlumniLoggedIn, logoutAlumni);
 router.route("/request/:id").get(isAlumniLoggedIn, seeOneRequest);
 router.route("/request/:id/approve").put(isAlumniLoggedIn, approveRequest);
 router.route("/request/:id/delete").delete(isAlumniLoggedIn, deleteRequest);

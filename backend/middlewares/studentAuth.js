@@ -3,10 +3,9 @@ import ErrorHandler from "./error.js";
 import jwt from "jsonwebtoken";
 import Student from "../models/studentSchema.js";
 
-export const isStudentLoggedIn = catchAsyncError(async (req, res, next) => {
-    console.log(req);
+const isStudentLoggedIn = catchAsyncError(async (req, res, next) => {
     const token = req.cookies.token;
-    console.log(req.cookies, token);
+    // console.log(req.cookies, token);
     if (!token) {
         return next(new ErrorHandler("User not authorized to access this route", 401));
     }
@@ -20,3 +19,5 @@ export const isStudentLoggedIn = catchAsyncError(async (req, res, next) => {
     }
     next();
 });
+
+export {isStudentLoggedIn}
