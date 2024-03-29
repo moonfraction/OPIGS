@@ -19,6 +19,7 @@ export const registerStudent = catchAsyncError(async (req, res) => {
     CGPA,
     address,
     profilePhoto,
+    roll,
   } = req.body;
   console.log(profilePhoto);
   if (
@@ -31,7 +32,8 @@ export const registerStudent = catchAsyncError(async (req, res) => {
     !yearOfStudy ||
     !CGPA ||
     !address ||
-    !profilePhoto
+    !profilePhoto ||
+    !roll
   ) {
     throw new ErrorHandler("Please enter all the fields", 400);
   }
@@ -71,6 +73,7 @@ export const registerStudent = catchAsyncError(async (req, res) => {
     CGPA,
     address,
     profilePhoto: uploadedImg.url,
+    roll,
   });
   return res.status(201).json({
     success: true,
@@ -152,23 +155,6 @@ export const updateStudentProfile = catchAsyncError(async (req, res) => {
     CGPA: CGPA || student.CGPA,
     address: address || student.address,
   };
-
-  //update profile photo
-  let profilePhotoURLLocalPath;
-  if (
-    req.files &&
-    Array.isArray(req.files.profilePhoto) &&
-    req.files.profilePhoto.length > 0
-  ) {
-    profilePhotoURLLocalPath = req.files.profilePhoto[0].path;
-  }
-  if (profilePhotoURLLocalPath) {
-    const profilePhoto = await uploadOnCloudinary(profilePhotoURLLocalPath);
-    if (!profilePhoto) {
-      throw new ErrorHandler("Error while uploading profile photo", 500);
-    }
-    updatedStudent.profilePhoto = profilePhoto.url;
-  }
 
   const updatedStudentProfile = await Student.findByIdAndUpdate(
     studentId,
@@ -270,11 +256,37 @@ export const approvedRequest = catchAsyncError(async (req, res) => {
   });
 });
 
-export const getAllAlumniAlreadySent = catchAsyncError(async (req,res) => {
+export const getAllAlumniAlreadySent = catchAsyncError(async (req, res) => {
   const stu_id = req.user._id;
   const alum_id = req.params.id;
-  const request = await RequestAlumni.findOne({student:stu_id,alumni:alum_id});
+  const request = await RequestAlumni.findOne({
+    student: stu_id,
+    alumni: alum_id,
+  });
   res.json({
-    show: (request ? false : true) 
-  })
-})
+    show: request ? false : true,
+  });
+});
+
+export const uploadCv = catchAsyncError(async (req, res) => {
+  const id = req.user._id;
+  const student = await Student.findById(id);
+  const { cv } = req.body;
+  if (!cv) {
+    throw new ErrorHandler("Please upload your cv", 400);
+  }
+  const uploadedImg = await uploadOnCloudinary(cv);
+
+  if (!uploadedImg) {
+    throw new ErrorHandler("Error while uploading image", 500);
+  }
+
+  student.resume = uploadedImg.url;
+  await student.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    success: true,
+    message: "CV uploaded successfully",
+    student,
+  });
+});

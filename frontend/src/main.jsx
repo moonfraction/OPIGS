@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 export const Context = React.createContext();
 
 const AppWrapper = () => {
+  document.title = "OPIGS";
   const [user, setUser] = useState({});
   const [authorised, setAuthorised] = useState(false);
   const [typeUser, setTypeUser] = useState("");

@@ -13,6 +13,9 @@ import CompanyDashboard from "./Pages/CompanyDashboard";
 import axios from "axios";
 import { Context } from "./main";
 import ViewAlumni from "./Components/ViewAlumni";
+import StudentDetails from "./Components/StudentDetails";
+import UpdateProfileStudent from "./Components/UpdateProfileStudent";
+import NotificationStudent from "./Components/NotificationStudent";
 
 const App = () => {
   const navigateTo = useNavigate();
@@ -44,19 +47,14 @@ const App = () => {
   }, []);
 
   return (
-    <Context.Provider
-      value={{
-        user,
-        setUser,
-        authorised,
-        setAuthorised,
-        typeUser,
-        setTypeUser,
-      }}
-    >
+    <>
       <Routes>
         <Route path="/api/v1/student" element={<StudentDashboard />}>
+          <Route index element={<StudentDetails />} />
+          <Route path="dashboard" element={<StudentDetails />} />
           <Route path="alumni" element={<ViewAlumni />} />
+          <Route path="update-profile" element={<UpdateProfileStudent />} />
+          <Route path="notification" element={<NotificationStudent />} />
         </Route>
         <Route path="/api/v1/alumni" element={<AlumniDashboard />} />
         <Route path="/api/v1/company" element={<CompanyDashboard />} />
@@ -65,7 +63,7 @@ const App = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
-    </Context.Provider>
+    </>
   );
 };
 

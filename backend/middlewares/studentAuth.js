@@ -5,7 +5,7 @@ import Student from "../models/studentSchema.js";
 
 const isStudentLoggedIn = catchAsyncError(async (req, res, next) => {
     const token = req.cookies.token;
-    // console.log(req.cookies, token);
+    console.log(token);
     if (!token) {
         return next(new ErrorHandler("User not authorized to access this route", 401));
     }
