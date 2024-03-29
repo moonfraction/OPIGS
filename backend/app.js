@@ -10,9 +10,9 @@ import jobRouter from './routes/jobRouter.js';
 import {dbConnection} from './database/dbConnection.js';
 import {errorMiddleware} from './middlewares/error.js';
 import adminRouter from './routes/adminRouter.js';
-import { upload } from './middlewares/multer.js';
 import bodyParser from 'body-parser';
 import getUserLoggedInRouter from './routes/getUserLoggedInRouter.js';
+import notficationRouter from './routes/notificationRouter.js';
 
 const app = express();
 dotenv.config({path: "./config/config.env"});
@@ -34,6 +34,7 @@ app.use('/api/v1/company', companyRouter);
 app.use('/api/v1/job', jobRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/application', applicationRouter);
+app.use('/api/v1/notification', notficationRouter);
 
 dbConnection();
 app.use(errorMiddleware);

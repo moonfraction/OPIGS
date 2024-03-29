@@ -15,6 +15,7 @@ const StudentRegister = () => {
   const [address, setAddress] = useState("");
   const [cgpa, setCgpa] = useState("");
   const [profilePhoto, setImage] = useState("");
+  const [roll, setRoll] = useState("");
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -42,6 +43,7 @@ const StudentRegister = () => {
     temp.append("yearOfStudy", yearOfStudy);
     temp.append("address", address);
     temp.append("CGPA", cgpa);
+    temp.append("roll", roll);
     temp.append("profilePhoto", profilePhoto);
     try {
       const resp = await axios.post(
@@ -67,8 +69,7 @@ const StudentRegister = () => {
       setCgpa("");
       setAvatar("");
     } catch (err) {
-      toast.error(err.response.data.message);
-      
+      toast.error(err.response.data.message);      
     }
   };
 
@@ -91,6 +92,12 @@ const StudentRegister = () => {
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Roll Number"
+        value={roll}
+        onChange={(e) => setRoll(e.target.value)}
       />
       <input
         type="tel"

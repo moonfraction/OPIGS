@@ -116,8 +116,8 @@ export const studentDeleteApplication = catchAsyncError(async (req, res, next) =
 
 // post application => /api/v1/application/post
 export const postApplication = catchAsyncError(async(req,res,next)=>{
-    const { name, email, coverLetter, phone, address, jobId } = req.body;
-    
+    const { name, email, coverLetter, phone, address } = req.body;
+    const jobId = req.params.id;
     const applicantId = req.user._id || req.user.id;
     if (!applicantId) {
         return next(new ErrorHandler("Student not found", 404));
@@ -130,38 +130,22 @@ export const postApplication = catchAsyncError(async(req,res,next)=>{
     if (!jobId) {
         return next(new ErrorHandler("Please enter the job id", 400));
     }
+
     const jobDetails = await Job.findById(jobId);
     if (!jobDetails) {
         return next(new ErrorHandler("Job not found", 404));
     }
 
     const companyId = jobDetails.company
+    const company = await Company.findById(companyId)
     if (!companyId) {
         return next(new ErrorHandler("Company not found", 404));
     }
     if (companyId.toString() === applicantId) {
         return next(new ErrorHandler("You cannot apply to your own job", 400));
     }
-
     if (!name || !email || !coverLetter || !phone || !address) {
         return next(new ErrorHandler("Please enter all the fields", 400));
-    }
-
-    if (!req.files || Object.keys(req.files).length === 0) {
-        return next(new ErrorHandler("Upload your resume", 400));
-    }
-
-    //upload resume to cloudinary as an image
-    let resumeLocalPath;
-    if (req.files && Array.isArray(req.files.resume) && req.files.resume.length > 0) {
-        resumeLocalPath = req.files.resume[0].path;
-    }
-    if (!resumeLocalPath) {
-        return next(new ErrorHandler("Please upload your resume", 400));
-    }
-    const resume = await uploadOnCloudinary(resumeLocalPath);
-    if (!resume) {
-        return next(new ErrorHandler("Error while uploading resume", 500));
     }
 
     const application = await Application.create({
@@ -172,7 +156,8 @@ export const postApplication = catchAsyncError(async(req,res,next)=>{
         address,
         applicantId,
         jobId,
-        resume: resume.url
+        resume: student.resume,
+        companyName: company.name
     });
 
     res.status(201).json({
@@ -194,7 +179,7 @@ export const getApprovedApplications = catchAsyncError(async(req,res,next)=>{
         return next(new ErrorHandler("Only students can view approved applications", 400));
     }
     
-    const applications = await Application.find({status: 'Approved'});
+    const applications = await Application.find({applicantId:studentId, status: 'Approved'});
     res.status(200).json({
         success: true,
         applications

@@ -52,6 +52,14 @@ const studentSchema = new mongoose.Schema({
         type: String, //get from cloudinary
         required: [true, 'Upload your profile photo']
     },
+    resume:{
+        type: String,
+        default: ""
+    },
+    roll :{
+        type: String,
+        required: [true, 'Roll number is required'],
+    },
 }, { timestamps: true })
 
 
