@@ -12,6 +12,7 @@ import AlumniDashboard from "./Pages/AlumniDashboard";
 import CompanyDashboard from "./Pages/CompanyDashboard";
 import axios from "axios";
 import { Context } from "./main";
+import ViewAlumni from "./Components/ViewAlumni";
 
 const App = () => {
   const navigateTo = useNavigate();
@@ -42,10 +43,6 @@ const App = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   return (
     <Context.Provider
       value={{
@@ -58,7 +55,9 @@ const App = () => {
       }}
     >
       <Routes>
-        <Route path="/api/v1/student" element={<StudentDashboard />} />
+        <Route path="/api/v1/student" element={<StudentDashboard />}>
+          <Route path="alumni" element={<ViewAlumni />} />
+        </Route>
         <Route path="/api/v1/alumni" element={<AlumniDashboard />} />
         <Route path="/api/v1/company" element={<CompanyDashboard />} />
         <Route path="/login" element={<Login />} />
