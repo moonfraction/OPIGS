@@ -27,6 +27,8 @@ import PostJob from "./Pages/Job/PostJob.jsx";
 import NotificationCompany from "./Components/NotificationCompany.jsx";
 import UpdateProfileAlumni from "./Components/UpdateProfileAlumni.jsx";
 import ViewRequestAlumni from "./Components/ViewRequestAlumni.jsx";
+import Chat from "./Chat/Chat";
+
 
 const App = () => {
   const navigateTo = useNavigate();
@@ -66,6 +68,7 @@ const App = () => {
           <Route path="alumni" element={<ViewAlumni />} />
           <Route path="update-profile" element={<UpdateProfileStudent />} />
           <Route path="notification" element={<NotificationStudent />} />
+          <Route path="chat" element={<Chat />} />
 
           <Route path="jobs" element={<Jobs />} />
           <Route path="jobDetails/:id" element={<JobDetails />} />

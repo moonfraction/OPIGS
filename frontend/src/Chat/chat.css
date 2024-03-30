@@ -1,0 +1,144 @@
+.messanger {
+    display: flex;
+    height: 100%;
+    /* background-color: #d19c9c; */
+}
+
+.chatMenu {
+    flex: 1;
+    background-color: #16166f;
+}
+
+.chatMenuWrapper {
+    padding: 10px;
+    /* background: #d76868; */
+    height: 100%;
+}
+
+.chatMenuInput {
+    height: 20px;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 90%;
+    border-bottom: 1px solid #bac6f5;
+    color: #bac6f5;
+}
+
+.chatMenuInput::placeholder {
+    color: #bac6f5;
+}
+
+.noConversationText{
+    color: grey;
+    font-size: 25px;
+    font-weight: 500;
+    margin-top: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,0);
+    cursor: default;
+}
+
+.conversationList{
+    height: calc(90% - 35px);
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: transparent;
+        border: 1px solid #bac6f5;
+        border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #bac6f5;
+    }
+
+}
+
+.chatBox {
+    flex: 3;
+    background-color: #9cc3d1;
+    position: relative;
+}
+
+.chatBoxWrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    /* background: #6b8e23; */
+    height: 100%;
+}
+
+.chatBoxTop {
+    /* padding: 10px; */
+    width: 100%;
+    overflow-y: scroll;
+    height: 100%;
+    /* background-color: green; */
+
+    &::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+
+    &::-webkit-scrollbar-thumb {
+        background: #1877f2;
+        border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #16166f;
+    }
+}
+
+.chatBoxBottom {
+    margin: 5px 0 10px 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    /* background: black; */
+}
+
+.chatMessageInput {
+    /* padding: 10px; */
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 90%;
+    height: 40px;
+    color: #000000;
+    resize: none;
+    scroll-behavior: smooth;
+}
+
+.chatMessageInput::placeholder {
+    color: #596286;
+}
+
+.chatSubmitButton {
+    background: #16166f;
+    color: #ffffff;
+    /* padding: 10px; */
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 70px;
+    height: 40px;
+    border-radius: 5px;
+    
+}

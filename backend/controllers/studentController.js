@@ -290,3 +290,15 @@ export const uploadCv = catchAsyncError(async (req, res) => {
     student,
   });
 });
+
+//get one student => /api/v1/student/:id
+export const getOneStudent = catchAsyncError(async (req, res) => {
+  const student = await Student.findById(req.params.id);
+  if (!student) {
+    throw new ErrorHandler("Student not found", 404);
+  }
+  res.status(200).json({
+    success: true,
+    student,
+  });
+});

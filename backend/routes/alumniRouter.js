@@ -1,6 +1,6 @@
 import express from 'express';
 import { upload } from '../middlewares/multer.js';
-import { registerAlumni,loginAlumni, approveRequest, logoutAlumni, getAllAlumni, updateAlumniProfile, seeAllRequests, seeOneRequest, deleteRequest, changePassword} from '../controllers/alumniController.js';
+import { registerAlumni,loginAlumni, approveRequest, logoutAlumni, getAllAlumni, updateAlumniProfile, seeAllRequests, seeOneRequest, deleteRequest, changePassword, getOneAlumni} from '../controllers/alumniController.js';
 import { isAlumniLoggedIn } from '../middlewares/alumniAuth.js';
 import { isStudentLoggedIn } from '../middlewares/studentAuth.js';
 const router = express.Router();
@@ -17,6 +17,8 @@ router.route("/update").put(isAlumniLoggedIn, upload.fields([
     {name: "avatar", maxCount: 1}
 ]), updateAlumniProfile);
 router.route("/changePassword").post(isAlumniLoggedIn, changePassword);
+router.route("/:id").get(getOneAlumni);
+
 
 
 export default router ;

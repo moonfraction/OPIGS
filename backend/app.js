@@ -13,6 +13,8 @@ import adminRouter from './routes/adminRouter.js';
 import bodyParser from 'body-parser';
 import getUserLoggedInRouter from './routes/getUserLoggedInRouter.js';
 import notficationRouter from './routes/notificationRouter.js';
+import conversationRouter from './Chat/routes/conversationRouter.js';
+import messageRouter from './Chat/routes/messageRouter.js';
 
 const app = express();
 dotenv.config({path: "./config/config.env"});
@@ -35,6 +37,9 @@ app.use('/api/v1/job', jobRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/application', applicationRouter);
 app.use('/api/v1/notification', notficationRouter);
+app.use('/api/v1/conversations', conversationRouter);
+app.use('/api/v1/messages', messageRouter);
+
 
 dbConnection();
 app.use(errorMiddleware);

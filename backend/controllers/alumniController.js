@@ -231,5 +231,18 @@ const changePassword = catchAsyncError(async (req, res, next) => {
 });
 
 
-export {registerAlumni,loginAlumni,approveRequest,logoutAlumni,getAllAlumni,updateAlumniProfile, seeAllRequests, seeOneRequest, deleteRequest, changePassword};
+//get one alumni => /api/v1/alumni/:id
+const getOneAlumni = catchAsyncError(async (req,res,next) => {
+    const {id} = req.params;
+    const alumni = await Alumni.findById(id);
+    if(!alumni){
+        next(new ErrorHandler("Alumni not found",404));
+    }
+    res.status(200).json({
+        success:true,
+        message:"Alumni fetched successfully",
+        alumni
+    });
+})
 
+export {registerAlumni,loginAlumni,approveRequest,logoutAlumni,getAllAlumni,updateAlumniProfile, seeAllRequests, seeOneRequest, deleteRequest, changePassword, getOneAlumni};
