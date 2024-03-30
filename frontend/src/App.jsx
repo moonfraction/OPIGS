@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./Pages/Login";
 import Jobs from "./Pages/Job/Jobs.jsx";
 import JobDetails from "./Pages/Job/JobDetails.jsx";
-import Application from "./Pages/Application/Application.jsx"
+import Application from "./Pages/Application/Application.jsx";
 import "./style/common.css";
 import { Toaster } from "react-hot-toast";
 import Register from "./Pages/Register";
@@ -15,16 +15,18 @@ import CompanyDashboard from "./Pages/DashBoard/CompanyDashboard.jsx";
 import axios from "axios";
 import { Context } from "./main";
 import ViewAlumni from "./Components/ViewAlumni";
-import UpdateProfileStudent from "./Components/UpdateProfileStudent";
 import NotificationStudent from "./Components/NotificationStudent";
 import AlumniDetails from "./Components/AlumniDetails";
-import StudentDetails from "./Components/StudentDetails.jsx";
+import StudentDetails from "./Components/StudentDetails";
+import UpdateProfileStudent from "./Components/UpdateProfileStudent";
 import CompanyDetails from "./Components/CompanyDetails.jsx";
-import NotificationCompany from "./Components/NotificationCompany.jsx";
 import MyJobs from "./Pages/Job/MyJobs.jsx";
 import UpdateProfileCompany from "./Components/UpdateProfileCompany.jsx";
 import MyApplication from "./Pages/Application/MyApplications.jsx";
 import PostJob from "./Pages/Job/PostJob.jsx";
+import NotificationCompany from "./Components/NotificationCompany.jsx";
+import UpdateProfileAlumni from "./Components/UpdateProfileAlumni.jsx";
+import ViewRequestAlumni from "./Components/ViewRequestAlumni.jsx";
 
 const App = () => {
   const navigateTo = useNavigate();
@@ -64,23 +66,28 @@ const App = () => {
           <Route path="alumni" element={<ViewAlumni />} />
           <Route path="update-profile" element={<UpdateProfileStudent />} />
           <Route path="notification" element={<NotificationStudent />} />
-          
+
+          <Route path="jobs" element={<Jobs />} />
+          <Route path="jobDetails/:id" element={<JobDetails />} />
+          <Route path="postApplication/:id" element={<Application />} />
+          <Route path="update-profile" element={<UpdateProfileStudent />} />
+          <Route path="notification" element={<NotificationStudent />} />
         </Route>
-        <Route path="/api/v1/alumni" element={<AlumniDashboard />} >
+        <Route path="/api/v1/alumni" element={<AlumniDashboard />}>
           <Route index element={<AlumniDetails />} />
           <Route path="dashboard" element={<AlumniDetails />} />
-          
+          <Route path="update-profile" element={<UpdateProfileAlumni />} />
+          <Route path="view-request" element={<ViewRequestAlumni />} />
         </Route>
 
-
-        < Route path="/api/v1/company" element={<CompanyDashboard />}>
-          <Route index element = {<CompanyDetails/>}/>
-          <Route path="dashboard" element ={<CompanyDetails/>}/>
-          <Route path="update-profile" element={<UpdateProfileCompany/>}/>
-          <Route path="my-applications" element={<MyApplication/>}/>
-          <Route path="notification" element={<NotificationCompany/>}/>
-          <Route path="my-posted-jobs" element={<MyJobs/>}/>
-          <Route path="post-new-job" element = {<PostJob/>}/>
+        <Route path="/api/v1/company" element={<CompanyDashboard />}>
+          <Route index element={<CompanyDetails />} />
+          <Route path="dashboard" element={<CompanyDetails />} />
+          <Route path="update-profile" element={<UpdateProfileCompany />} />
+          <Route path="my-applications" element={<MyApplication />} />
+          <Route path="notification" element={<NotificationCompany />} />
+          <Route path="my-posted-jobs" element={<MyJobs />} />
+          <Route path="post-new-job" element={<PostJob />} />
         </Route>
 
         <Route path="/login" element={<Login />} />
@@ -88,7 +95,6 @@ const App = () => {
         <Route path="/register" element={<Register />} />
 
         <Route path="*" element={<NotFound />} />
-
       </Routes>
       <Toaster />
     </>

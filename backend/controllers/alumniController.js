@@ -81,7 +81,7 @@ const seeAllRequests = catchAsyncError(async (req,res) => {
     if(!alumni){
         throw new ErrorHandler("Alumni not found", 404);
     }
-    const requests = await RequestAlumni.find({alumni:alumId});
+    const requests = await RequestAlumni.find({alumni:alumId, status:false});
     res.status(200).json({
         success:true,
         message:"Requests fetched successfully",
