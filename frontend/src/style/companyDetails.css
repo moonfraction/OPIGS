@@ -1,0 +1,24 @@
+.company-details-container{
+    height: 100%;
+    width: 100%;
+    padding-top: 3%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.company-details-container .detail-container{
+    height: 60%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   
+    padding-left: 20px;
+    font-size: 1.25rem;
+}
+.company-details-container .detail-container .detail{
+    display: flex;
+    align-items: center;
+}
+.company-details-container .detail-container .detail h3{
+    margin-right: 10px;
+}

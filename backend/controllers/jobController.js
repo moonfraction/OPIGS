@@ -1,8 +1,9 @@
 import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import Job from "../models/jobSchema.js";
+import Company from "../models/companySchema.js";
 
-// Get all jobs => /api/v1/jobs
+// Get all jobs => /api/v1/job/alljobs
 export const getAllJobs = catchAsyncError(async (req, res, next) => {
     const jobs = await Job.find({ expired: false });
     res.status(200).json({
@@ -120,6 +121,7 @@ export const postJob = catchAsyncError(async (req, res, next) => {
         }
     }
 
+    const company = await Company.findById(companyId);
     const job = await Job.create({
         category,
         title,
@@ -127,6 +129,7 @@ export const postJob = catchAsyncError(async (req, res, next) => {
         location,
         salary,
         company: companyId,
+        companyName : company.name,
         jobType,
         postedOn,
         deadline,

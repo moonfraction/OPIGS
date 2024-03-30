@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { Context } from '../main';
-import Navbar from '../Components/Navbar';
-import '../style/studentDashboard.css';
+import { Context } from '../../main';
+import Navbar from '../../Components/Navbar';
+import '../../style/studentDashboard.css';
 import { NavLink, Outlet } from 'react-router-dom';
 
 const StudentDashboard = () => {

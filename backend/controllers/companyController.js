@@ -275,3 +275,4 @@ export const getOneStudent = catchAsyncError(async (req, res, next) => {
     student,
   });
 });
+

@@ -3,7 +3,7 @@ import {getAllJobs, postJob, getMyJobs, updateJob, deleteJob, getJobDetails} fro
 import { isCompanyLoggedInandVerified } from '../middlewares/companyAuth.js';
 const router = express.Router();
 
-router.get('/all', getAllJobs);
+router.get('/alljobs', getAllJobs);
 router.post('/post', isCompanyLoggedInandVerified, postJob);
 router.get('/myjobs', isCompanyLoggedInandVerified, getMyJobs);
 router.put('/update/:id', isCompanyLoggedInandVerified, updateJob);

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import Navbar from '../Components/Navbar';
-import { Context } from '../main';
+import Navbar from '../../Components/Navbar'
+import { Context } from '../../App'
 
-const CompanyDashboard = () => {
+const AlumniDashboard = () => {
   const {user} = useContext(Context);
   return (
     <div className='dashboard-container'>
@@ -11,4 +11,4 @@ const CompanyDashboard = () => {
   )
 }
 
-export default CompanyDashboard
+export default AlumniDashboard

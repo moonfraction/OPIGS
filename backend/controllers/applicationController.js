@@ -114,11 +114,15 @@ export const studentDeleteApplication = catchAsyncError(async (req, res, next) =
     });
 });
 
-// post application => /api/v1/application/post
+// post application => /api/v1/application/post/:id
 export const postApplication = catchAsyncError(async(req,res,next)=>{
     const { name, email, coverLetter, phone, address } = req.body;
     const jobId = req.params.id;
     const applicantId = req.user._id || req.user.id;
+    const exists = Application.findOne({applicantId,jobId});
+    if(exists){
+        return next(new ErrorHandler("ALready applied",400));
+    }
     if (!applicantId) {
         return next(new ErrorHandler("Student not found", 404));
     }
