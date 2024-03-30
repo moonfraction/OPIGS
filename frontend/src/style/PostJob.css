@@ -3,7 +3,7 @@
     padding:0;
     overflow:hidden;
 }
-.postjob-container{
+.application-container{
     display:flex;
     align-items:center;
     width:100%;
@@ -15,7 +15,7 @@
     justify-content:center;
 
 }
-.postjob-container .form-container{
+.application-container .form-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -27,7 +27,7 @@
     box-shadow:12px 17px 24px -3px rgba(0,0,0,0.75);
 }
 
-.postjob-container .form-container form{
+.application-container .form-container form{
     margin-top: -30px;
     display: flex;
     flex-direction: column;
@@ -37,7 +37,7 @@
     width: 80%;
 }
 
-.postjob-container .form-container form input {
+.application-container .form-container form input {
     height: 20px;
     width: 100%;
     border: none;
@@ -49,7 +49,7 @@
     padding: 5px;
 }
 
-.postjob-container .form-container form button{
+.application-container .form-container form button{
     height: 50px;
     width: 30%;
     border: none;
@@ -63,6 +63,6 @@
     outline: none;
     margin-top: 10px;
 }
-.postjob-container .form-container form button:hover{
+.application-container .form-container form button:hover{
     background-color:#04aa6dcc;
 }
