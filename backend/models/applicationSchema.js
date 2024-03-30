@@ -53,6 +53,10 @@ const applicationSchema = new mongoose.Schema({
         default: 'Pending'
         // enum: ['Approved', 'Rejected'],
         //dropdown in frontend ['Approved', 'Rejected']
+    },
+    companyName:{
+        type: String,
+        required: true
     }
 })
 

@@ -1,9 +1,10 @@
 import React,{useContext,useState} from "react";
 import "../../style/Application.css";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import toast from "react-hot-toast";
 import {Context} from "../../main";
 import "../../style/Application.css";
+import axios from "axios";
 
 const Application =() =>{
     const [name,setName] = useState("");
@@ -11,6 +12,8 @@ const Application =() =>{
     const [coverLetter,setCoverLetter] = useState("");
     const [phone,setPhone] = useState("");
     const [address,setAddress] = useState("");
+
+    const {id} = useParams();
 
     const {authorised,user} = useContext(Context);
 
@@ -25,8 +28,8 @@ const Application =() =>{
         temp.append("phone",phone);
         temp.append("address",address);
         try {
-            const resp  = await axios.post(
-                "http://localhost:4000/api/v1/application/post",
+            const response  = await axios.post(
+                `http://localhost:4000/api/v1/application/post/${id}`,
                 temp,
                 {
                     withCredentials : true,
@@ -35,23 +38,25 @@ const Application =() =>{
                     }
                 },
             );
-            toast.success(resp.data.message);
+            console.log(response);
+            toast.success(response.data.message);
+            navigateTo("/api/v1/student/jobs");
             setName("");
             setEmail("");
             setCoverLetter("");
             setPhone("");
             setAddress("");
-            navigateTo("/api/v1/student/jobs/getall");
         } catch (error) {
+            console.log(error);
             toast.error(error.response.data.message);
         }
-    }
+    };
 
  return(
-    <div className ="application-body">
+    <div >
         <div className="application-container">
         <div className="form-container" > 
-        <form method ="POST" action = "/api/v1/student/postApplication/:id">
+        <form method ="POST" action = "">
         <input
         type="text"
         placeholder = "Name"
@@ -62,27 +67,26 @@ const Application =() =>{
         type="text"
         placeholder = "Email"
         value={email}
-        onChange = {(e)=>setName(e.target.value)}
+        onChange = {(e)=>setEmail(e.target.value)}
         />
         <input
         type="text"
         placeholder = "Cover Letter"
         value={coverLetter}
-        onChange = {(e)=>setName(e.target.value)}
+        onChange = {(e)=>setCoverLetter(e.target.value)}
         />
         <input
         type="tel"
         placeholder = "Phone Number"
         value={phone}
-        onChange = {(e)=>setName(e.target.value)}
+        onChange = {(e)=>setPhone(e.target.value)}
         />
         <input
         type="text"
         placeholder = "Address"
         value={address}
-        onChange = {(e)=>setName(e.target.value)}
+        onChange = {(e)=>setAddress(e.target.value)}
         />
-
         <button type="submit" onClick = {(e)=>handleApplication(e)}>
             Apply
         </button>

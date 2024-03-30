@@ -3,7 +3,7 @@
     width: 100vw;
 }
 
-.dashboard-content{
+.dashboard-container .dashboard-content{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,21 +11,21 @@
     width: 100%;
 }
 
-.sidebar{
+.dashboard-container .dashboard-content .sidebar{
     height: 100%;
     width: 20%;
     background-color: var(--grey-dark);
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content:space-evenly;
     align-items: left;
     padding-left: 20px;
     font-size: 1.25rem;
 }
 
-.sidebar-options{
+.dashboard-container .dashboard-content .sidebar .sidebar-options{
     text-decoration: none;
-    color: grey;
+    color: rgb(159, 156, 156);
 }
 
 .active{

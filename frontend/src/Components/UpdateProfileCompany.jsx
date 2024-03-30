@@ -1,7 +1,7 @@
 import React,{useState,useContext} from 'react';
-const PostJob=()=>{
+const UpdateProfileCompany = ()=>{
     return(
         <div></div>
-    )
+    )   
 }
-export default PostJob;
+export default UpdateProfileCompany;
