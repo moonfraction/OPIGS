@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import "../style/updateProfileStudent.css";
-import { Context } from "../App";
+import { Context } from "../main";
 
 const UpdateProfileStudent = () => {
   const [image, setImage] = useState("");
