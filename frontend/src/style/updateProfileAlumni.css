@@ -1,0 +1,41 @@
+.update-profile-alumni {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    padding-left: 20px;
+}
+
+.update-profile-student h2{
+    color : var(--grey-dark);
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.update-password{
+    display: flex;
+    flex-direction: column;
+}
+
+.update-password form{
+    display: flex;
+    flex-direction: column;
+}
+.update-password form input{
+    background: none;
+    border: none;
+    border-bottom: 2px solid var(--grey-dark);
+    outline: none;
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    width: 70%;
+}
+
+.update-password-btn{
+    color: var(--white);
+    background-color: var(--grey-dark);
+    font-size: 1.25rem;
+    width: 200px;
+    height: 50px;
+    border-radius: 30px;
+    font-weight: bold;
+}

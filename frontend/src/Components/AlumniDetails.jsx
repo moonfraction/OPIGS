@@ -12,10 +12,26 @@ const AlumniDetails = () => {
             <h3>Name:</h3>
             <p>{user.username}</p>
           </div>
-          {/* <div className="detail">
-            <h3>Name:</h3>
-            <p>{user.name}</p>
-          </div>           */}
+          <div className="detail">
+            <h3>Email:</h3>
+            <p>{user.email}</p>
+          </div>
+          <div className="detail">
+            <h3>Phone:</h3>
+            <p>{user.phone}</p>
+          </div>          
+          <div className="detail">
+            <h3>Company:</h3>
+            <p>{user.currentCompany}</p>
+          </div>
+          <div className="detail">
+            <h3>Job Profile:</h3>
+            <p>{user.jobProfile}</p>
+          </div>
+          <div className="detail">
+            <h3>Branch:</h3>
+            <p>{user.branch}</p>
+          </div>
         </div>
         <div className="image-container">
           <img src={user.avatar} alt="" />
