@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Jobs from "./Pages/Job/Jobs.jsx";
 import JobDetails from "./Pages/Job/JobDetails.jsx";
@@ -16,6 +15,10 @@ import CompanyDashboard from "./Pages/DashBoard/CompanyDashboard.jsx";
 import axios from "axios";
 import { Context } from "./main";
 import ViewAlumni from "./Components/ViewAlumni";
+import StudentDetails from "./Components/StudentDetails";
+import UpdateProfileStudent from "./Components/UpdateProfileStudent";
+import NotificationStudent from "./Components/NotificationStudent";
+import AlumniDetails from "./Components/AlumniDetails";
 import StudentDetails from "./Components/StudentDetails";
 import UpdateProfileStudent from "./Components/UpdateProfileStudent";
 import NotificationStudent from "./Components/NotificationStudent";
@@ -62,6 +65,12 @@ const App = () => {
           <Route index element={<StudentDetails />} />
           <Route path="dashboard" element={<StudentDetails />} />
           <Route path="alumni" element={<ViewAlumni />} />
+          <Route path="update-profile" element={<UpdateProfileStudent />} />
+          <Route path="notification" element={<NotificationStudent />} />
+        </Route>
+        <Route path="/api/v1/alumni" element={<AlumniDashboard />} >
+          <Route index element={<AlumniDetails />} />
+          <Route path="dashboard" element={<AlumniDetails />} />
           <Route path="jobs" element = {<Jobs/>} />
           <Route path ="jobDetails/:id" element = {<JobDetails/>}/>
           <Route path ="postApplication/:id" element ={<Application/>} />
@@ -69,7 +78,6 @@ const App = () => {
           <Route path="notification" element={<NotificationStudent />} />
         </Route>
 
-        <Route path="/api/v1/alumni" element={<AlumniDashboard />} />
 
         < Route path="/api/v1/company" element={<CompanyDashboard />}>
           <Route index element = {<CompanyDetails/>}/>
