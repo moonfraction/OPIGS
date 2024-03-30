@@ -15,13 +15,10 @@ import CompanyDashboard from "./Pages/DashBoard/CompanyDashboard.jsx";
 import axios from "axios";
 import { Context } from "./main";
 import ViewAlumni from "./Components/ViewAlumni";
-import StudentDetails from "./Components/StudentDetails";
 import UpdateProfileStudent from "./Components/UpdateProfileStudent";
 import NotificationStudent from "./Components/NotificationStudent";
 import AlumniDetails from "./Components/AlumniDetails";
-import StudentDetails from "./Components/StudentDetails";
-import UpdateProfileStudent from "./Components/UpdateProfileStudent";
-import NotificationStudent from "./Components/NotificationStudent";
+import StudentDetails from "./Components/StudentDetails.jsx";
 import CompanyDetails from "./Components/CompanyDetails.jsx";
 import NotificationCompany from "./Components/NotificationCompany.jsx";
 import MyJobs from "./Pages/Job/MyJobs.jsx";
@@ -67,15 +64,12 @@ const App = () => {
           <Route path="alumni" element={<ViewAlumni />} />
           <Route path="update-profile" element={<UpdateProfileStudent />} />
           <Route path="notification" element={<NotificationStudent />} />
+          
         </Route>
         <Route path="/api/v1/alumni" element={<AlumniDashboard />} >
           <Route index element={<AlumniDetails />} />
           <Route path="dashboard" element={<AlumniDetails />} />
-          <Route path="jobs" element = {<Jobs/>} />
-          <Route path ="jobDetails/:id" element = {<JobDetails/>}/>
-          <Route path ="postApplication/:id" element ={<Application/>} />
-          <Route path="update-profile" element={<UpdateProfileStudent />} />
-          <Route path="notification" element={<NotificationStudent />} />
+          
         </Route>
 
 

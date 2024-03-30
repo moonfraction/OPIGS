@@ -3,7 +3,6 @@ import "../../style/Application.css";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import toast from "react-hot-toast";
 import {Context} from "../../main";
-import "../../style/Application.css";
 import axios from "axios";
 
 const Application =() =>{
