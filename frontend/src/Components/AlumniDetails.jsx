@@ -12,10 +12,10 @@ const AlumniDetails = () => {
             <h3>Name:</h3>
             <p>{user.username}</p>
           </div>
-          <div className="detail">
+          {/* <div className="detail">
             <h3>Name:</h3>
             <p>{user.name}</p>
-          </div>          
+          </div>           */}
         </div>
         <div className="image-container">
           <img src={user.avatar} alt="" />
