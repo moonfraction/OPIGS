@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import "./style/common.css";
 import { Toaster } from "react-hot-toast";
@@ -16,6 +15,7 @@ import ViewAlumni from "./Components/ViewAlumni";
 import StudentDetails from "./Components/StudentDetails";
 import UpdateProfileStudent from "./Components/UpdateProfileStudent";
 import NotificationStudent from "./Components/NotificationStudent";
+import AlumniDetails from "./Components/AlumniDetails";
 
 const App = () => {
   const navigateTo = useNavigate();
@@ -56,7 +56,10 @@ const App = () => {
           <Route path="update-profile" element={<UpdateProfileStudent />} />
           <Route path="notification" element={<NotificationStudent />} />
         </Route>
-        <Route path="/api/v1/alumni" element={<AlumniDashboard />} />
+        <Route path="/api/v1/alumni" element={<AlumniDashboard />} >
+          <Route index element={<AlumniDetails />} />
+          <Route path="dashboard" element={<AlumniDetails />} />
+        </Route>
         <Route path="/api/v1/company" element={<CompanyDashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
