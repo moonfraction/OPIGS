@@ -1,4 +1,49 @@
 .view-request-container {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3%;
+  overflow: scroll;
+}
+
+.view-request-container::-webkit-scrollbar {
+  display: none;
+}
+
+.request-card {
+  width: 90%;
+  height: 13%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-radius: 10px;
+  box-shadow: 12px 17px 15px -1px rgba(0, 0, 0, 0.25);
+}
+
+.request-card .right{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.request-card .right button{
+    width:100px;
+    height: 30px;
+    color: var(--white);
+    border-radius: 10px;
+    margin-bottom: 5px;
+    border: none;
+    font-weight: bold;
+}
+
+.request-card .right button.accept{
+    background-color: green;
+}
+
+.request-card .right button.reject{
+    background-color: red;
 }

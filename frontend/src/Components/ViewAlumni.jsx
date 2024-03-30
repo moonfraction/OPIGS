@@ -36,7 +36,7 @@ const AlumniCard = ({ alum }) => {
       };
     } 
     showAlum();
-  }, []);
+  });
 
   return (
     <div className={
