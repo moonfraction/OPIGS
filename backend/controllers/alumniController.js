@@ -144,7 +144,7 @@ const deleteRequest = catchAsyncError(async (req,res) => {
 
 //get all alumni => /api/v1/alumni/getall
 const getAllAlumni = catchAsyncError(async (req,res,next) => {
-    const alum_data = await Alumni.find({});
+    const alum_data = await Alumni.find();
     if(!alum_data){
         next(new ErrorHandler("Could not fetch alumni or no alumni available",500));
     }

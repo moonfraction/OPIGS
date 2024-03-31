@@ -8,6 +8,7 @@ import "../../style/job.css";
 const JobDetails = () => {
   const { id } = useParams();
   const [job, setJob] = useState({});
+  const [company, setCompany] = useState({});
   const navigateTo = useNavigate();
 
   const { isAuthorised, user } = useContext(Context);
@@ -21,6 +22,9 @@ const JobDetails = () => {
       })
       .then((res) => {
         setJob(res.data.job);
+        axios.get(`http://localhost:4000/api/v1/company/${res.data.job.company}/detail`, {withCredentials: true}).then((res) => {
+          setCompany(res.data.company);
+        })
       })
       .catch((error) => {
         navigateTo("/notfound");
@@ -31,6 +35,8 @@ const JobDetails = () => {
     }
     fetchJobDetail();
   }, []);
+
+  const deadline = new Date(job.deadline);
 
   return (
     <section className="jobDetail">
@@ -43,16 +49,25 @@ const JobDetails = () => {
             Category: <span>{job.category}</span>
           </p>
           <p>
+            Job Type: <span>{job.jobType}</span>
+          </p>
+          <p>
             Location: <span>{job.location}</span>
           </p>
           <p>
-            Company: <span>{job.company}</span>
+            Company: <span>{company.name}</span>
           </p>
           <p>
             Description: <span>{job.description}</span>
           </p>
           <p>
-            Deadline: <span>{job.deadline}</span>
+            Recruitment Policy: <span>{company.recruitmentPolicy}</span>
+          </p>
+          <p>
+            Work Environment: <span>{company.workEnvironment}</span>
+          </p>
+          <p>
+            Deadline: <span>{`${deadline.getDate()}/${deadline.getMonth()+1}/${deadline.getFullYear()}`}</span>
           </p>
           <p>
             Salary: <span>{job.salary}</span>
