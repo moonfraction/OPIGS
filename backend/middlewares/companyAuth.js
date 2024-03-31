@@ -35,7 +35,6 @@ export const isCompanyLoggedIn = catchAsyncError(async (req, res, next) => {
     }
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     req.user = decoded;
-    console.log(decoded);
     if (!req.user) {
         return next(new ErrorHandler("User not authorized to access this route", 401));
     }

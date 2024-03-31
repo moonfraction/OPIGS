@@ -1,7 +1,7 @@
 .navbar-container{
     width: 100vw;
     height: 10%;
-    background-color:#04AA6D;
+    background:linear-gradient(90deg, var(--grey-dark) 0%,  var(--grey-dark) 25%, var(--light-green) 100%);
     display: flex;
     justify-content: space-between;
     align-items: center;
