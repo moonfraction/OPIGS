@@ -5,7 +5,7 @@ import axios from "axios";
 import { Context } from "../../../main";
 
 
-const Conversation = ({conversation, currentUser}) => {
+const Conversation = ({conversation, currentUser, isOpen}) => {
   const {typeUser} = useContext(Context); //this is the role of the logged in user
   // console.log(typeUser);
   const [user, setUser] = useState(null);
@@ -33,7 +33,7 @@ const Conversation = ({conversation, currentUser}) => {
   }, [currentUser, conversation]
   );
   return (
-    <div className="conversation">
+    <div className= {isOpen ? "conversation active" : "conversation"}>
         <img className="conversationImg" src= {otherUser === "student" ? user?.profilePhoto : user?.avatar} alt="" />
         <span className="conversationName">{otherUser === "student" ? user?.name : user?.username}</span>
     </div>

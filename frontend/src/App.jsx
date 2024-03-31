@@ -81,6 +81,7 @@ const App = () => {
           <Route path="dashboard" element={<AlumniDetails />} />
           <Route path="update-profile" element={<UpdateProfileAlumni />} />
           <Route path="view-request" element={<ViewRequestAlumni />} />
+          <Route path="chat" element={<Chat />} />
         </Route>
 
         <Route path="/api/v1/company" element={<CompanyDashboard />}>

@@ -23,7 +23,7 @@ const AlumniDashboard = () => {
             View Request
           </NavLink>
 
-          <NavLink to="dashboard" className="sidebar-options">
+          <NavLink to="chat" className="sidebar-options">
             Chat
           </NavLink>
         </div>

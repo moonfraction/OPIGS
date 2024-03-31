@@ -1,7 +1,6 @@
-.conversationList {
-    height: 100%;
-    overflow-y: auto;
-    padding: 20px;
+.conversationList{
+    height: 97%;
+    overflow-y: scroll;
 
     &::-webkit-scrollbar {
         width: 7px;
@@ -10,7 +9,6 @@
     &::-webkit-scrollbar-track {
         background: transparent;
     }
-
 
     &::-webkit-scrollbar-thumb {
         background: transparent;
@@ -21,7 +19,9 @@
     &::-webkit-scrollbar-thumb:hover {
         background: #bac6f5;
     }
+
 }
+
 
 .conversation {
     display: flex;
@@ -33,6 +33,11 @@
     border-radius: 10px;
     color: #bac6f5;
     transition: background-color 0.3s;
+}
+
+.conversation.active{
+    background-color: #bac6f5;
+    color: #16166f;
 }
 
 .conversation:hover {

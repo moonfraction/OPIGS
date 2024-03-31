@@ -7,6 +7,14 @@ const router = express.Router();
 
 //new conv => http://localhost:4000/api/v1/conversations/
 router.post("/", catchAsyncError(async (req, res) => {
+    const allConversations = await Conversation.find({});
+    const isConversation = allConversations.find((conversation) => {
+        const members = conversation.members;
+        return members.includes(req.body.senderId) && members.includes(req.body.receiverId);
+    });
+    if(isConversation) {
+        return res.status(200).json(isConversation);
+    }
     const newConversation = new Conversation({
         members: [req.body.senderId, req.body.receiverId],
     });

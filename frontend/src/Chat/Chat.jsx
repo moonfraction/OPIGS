@@ -1,10 +1,10 @@
-/* eslint-disable react/jsx-key */
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Conversation from "./Components/Conversations/conversation"
 import Message from "./Components/message/message"
 import "./chat.css"
 import { Context } from "../main";
 import axios from "axios";
+import { io } from "socket.io-client";
 
 const Chat = () => {
 
@@ -12,8 +12,34 @@ const Chat = () => {
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const socket = useRef();
+  const scrollRef = useRef();
 
   const { user } = useContext(Context);
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
+  }, [arrivalMessage]);
+
+  useEffect(() => {
+    arrivalMessage &&
+      currentChat?.members.includes(arrivalMessage.sender) &&
+      setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, currentChat]);
+
+
+  useEffect(() => {
+    socket.current.emit("addUser", user._id);
+    socket.current.on("getUsers");
+  }, [user]);
+
 
   useEffect(() => {
     const getConversation = async () => {
@@ -49,6 +75,16 @@ const Chat = () => {
       conversationId: currentChat._id,
     };
 
+    const receiverId = currentChat.members.find(
+      (member) => member !== user._id
+    );
+
+    socket.current.emit("sendMessage", {
+      senderId: user._id,
+      receiverId,
+      text: newMessage,
+    });
+
     try {
       const res = await axios.post("http://localhost:4000/api/v1/messages", message);
       setMessages([...messages, res.data]);
@@ -58,6 +94,11 @@ const Chat = () => {
     }
   };
 
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+
   return (
     <>
       <div className="messanger">
@@ -65,10 +106,10 @@ const Chat = () => {
           {currentChat ?
             <>
               <div className="chatBoxWrapper">
-                <div className="chatBoxTop">
+                <div className="chatBoxTop" key={currentChat._id}>
                   {messages.map((m) => (
-                    <div key={m._id}>
-                      <Message message={m} own={m.sender === user._id} />
+                    <div key={m._id} ref={scrollRef}>
+                      <Message message={m} own={m.sender === user._id}/>
                     </div>
                   ))}
                 </div>
@@ -85,11 +126,11 @@ const Chat = () => {
         </div>
         <div className="chatMenu">
           <div className="chatMenuWrapper">
-            <input placeholder="Search for Alumni" className="chatMenuInput" />
-            <div className="conversationList">
+            {/* <input placeholder="Search for Alumni" className="chatMenuInput" /> */}
+            <div className="conversationList" >
               {conversation.map((c) => (
-                <div onClick={() => setCurrentChat(c)}>
-                  <Conversation conversation={c} key={c._id} currentUser={user} />
+                <div onClick={() => setCurrentChat(c)} key={c._id}>
+                  <Conversation conversation={c} currentUser={user} isOpen={currentChat?._id === c._id}/>
                 </div>
               ))}
             </div>

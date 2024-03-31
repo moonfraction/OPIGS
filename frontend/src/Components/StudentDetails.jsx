@@ -22,7 +22,7 @@ const Resume = ({ user,close }) => {
 const StudentDetails = () => {
   const [modal, setModal] = useState(false);
   const { user } = useContext(Context);
-  console.log(user);
+  // console.log(user);
 
   const handleCVModal = (e) => {
     if (user.resume === "") {
