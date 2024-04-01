@@ -233,7 +233,7 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
 //apply for verification => /api/v1/company/apply
 //admin will see the verification request, change status to APPROVED or REJECTED
 export const applyForVerification = catchAsyncError(async (req, res, next) => {
-  const { _id } = req.user;
+  const _id = req.user._id;
   let company = await Company.findById(_id);
   if (!company) {
     return next(new ErrorHandler("Company not found", 404));

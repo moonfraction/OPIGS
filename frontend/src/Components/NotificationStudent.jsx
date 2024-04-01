@@ -50,7 +50,8 @@ const NotificationStudent = () => {
             },
           }
         );
-        setJobNotif(response.data.generalNotif);
+        console.log(response.data.newJobs);
+        setJobNotif(response.data.newJobs);
       };
       fetchJobNotif();
     } catch (error) {

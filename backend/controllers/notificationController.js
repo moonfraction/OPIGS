@@ -18,4 +18,17 @@ const getGeneralNotif = catchAsyncError(async (req,res) => {
     })
 })
 
-export {getJobPostNotification,getGeneralNotif}
+const generateJobNotification = catchAsyncError(async (req,res) => {
+    const {title} = req.body;
+    const id = req.user._id;
+    const newNotif = await ToAllNotif.create({
+        title,
+        company: id
+    });
+    res.status(200).json({
+        success:true,
+        newNotif
+    })
+})
+
+export {getJobPostNotification,getGeneralNotif,generateJobNotification}

@@ -28,10 +28,9 @@ const RequestCard =({ele})=>{
         fetchCompany();
     },[])
     const handleAccept = async () =>{
-        const [stats,setStats]=useState("approved");
         try {
             const response = await axios.put(`http://localhost:4000/api/v1/admin/verify/${ele._id}`,
-            {stats},
+            {stats:"Approved"},
             {
                 withCredentials: true,
                 headers: { "Content-Type": "application/json" },
@@ -42,10 +41,9 @@ const RequestCard =({ele})=>{
         }
     }
     const handleReject = async () =>{
-        const [stats,setStats]=useState("rejected");
         try {
             const response = await axios.put(`http://localhost:4000/api/v1/admin/verify/${ele._id}`,
-            {stats},
+            {stats:"Rejected"},
             {
                 withCredentials: true,
                 headers: { "Content-Type": "application/json" },
@@ -83,7 +81,7 @@ const AdminVerifyCompany = ()=>{
                 },
               }
             );
-            setRequests(response.data.requests);
+            setRequests(response.data.allRequests);
           } catch (error) {
             toast.error(error.response.data.message);
           }

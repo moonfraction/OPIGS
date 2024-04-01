@@ -58,7 +58,7 @@ const logoutAdmin = catchAsyncError(async (req,res,next) => {
 
 //admin see all the requests and verify them => /api/v1/admin/all-requests
 const viewAllCompanyRequests = catchAsyncError(async (req,res,next) => {
-    const allRequests = await Verification.find();
+    const allRequests = await Verification.find({status: "Pending"});
     res.status(200).json({
         success:true,
         allRequests
