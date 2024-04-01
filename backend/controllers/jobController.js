@@ -144,3 +144,15 @@ export const postJob = catchAsyncError(async (req, res, next) => {
     });
 });
 
+export const getJobsByCompanyId =  catchAsyncError(async (req,res) => {
+    const company_id = req.user._id;
+    const jobs = await Job.find({company: company_id});
+    if(!jobs){
+        return next(new ErrorHandler("No jobs found", 404));
+    }
+    res.status(200).json({
+        success: true,
+        jobs
+    });
+})
+

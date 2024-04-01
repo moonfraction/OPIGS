@@ -26,6 +26,7 @@ import PostJob from "./Pages/Job/PostJob.jsx";
 import NotificationCompany from "./Components/NotificationCompany.jsx";
 import UpdateProfileAlumni from "./Components/UpdateProfileAlumni.jsx";
 import ViewRequestAlumni from "./Components/ViewRequestAlumni.jsx";
+import ViewStudentDetails from "./Components/ViewStudentDetails.jsx";
 import MyApplications from "./Pages/Application/MyApplications.jsx";
 import AdminLogin from "./Pages/AdminLogin.jsx";
 import AdminDashboard from "./Pages/DashBoard/AdminDashboard.jsx";
@@ -93,6 +94,7 @@ const App = () => {
           <Route path="notification" element={<NotificationCompany />} />
           <Route path="my-posted-jobs" element={<MyJobs />} />
           <Route path="post-new-job" element={<PostJob />} />
+          <Route path="view-all-students" element={<ViewStudentDetails />} />
         </Route>
 
         <Route path="/adminLogin" element={<AdminLogin/>}/>

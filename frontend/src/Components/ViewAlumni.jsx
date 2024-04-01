@@ -21,7 +21,6 @@ const handleSendRequest = async (id) => {
 };
 
 const AlumniCard = ({ alum }) => {
-  // console.log(alum);
   const [show, setShow] = useState(false);
   useEffect(() => {
     const showAlum = async () => {
