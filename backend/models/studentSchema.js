@@ -41,7 +41,7 @@ const studentSchema = new mongoose.Schema({
         required: [true, 'Enter your yearofGraduation']
     },
     CGPA: {
-        type: mongoose.Types.Decimal128,
+        type: String,
         required: true,        
     },
     address: {

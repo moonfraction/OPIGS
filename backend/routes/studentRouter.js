@@ -1,12 +1,13 @@
 import express from 'express';
 import { upload } from '../middlewares/multer.js';
-import { registerStudent, loginStudent, logoutStudent, changePassword, getStudentProfile, updateStudentProfile, requestAlumni, approvedRequest, getAllAlumniAlreadySent, uploadCv, getOneStudent} from "../controllers/studentController.js"
+import { registerStudent, loginStudent, logoutStudent, changePassword, getStudentProfile, updateStudentProfile, requestAlumni, approvedRequest, getAllAlumniAlreadySent, uploadCv, getOneStudent, getAllStudents} from "../controllers/studentController.js"
 import { isStudentLoggedIn } from '../middlewares/studentAuth.js';
 
 const router = express.Router();
 
 router.route("/register").post(registerStudent);
 router.route("/login").post(loginStudent)
+router.route("/getall").get(getAllStudents)
 router.route("/logout").get(isStudentLoggedIn,logoutStudent)
 router.route("/upload-cv").post(isStudentLoggedIn,uploadCv);
 router.route("/changePassword").post(isStudentLoggedIn, changePassword)

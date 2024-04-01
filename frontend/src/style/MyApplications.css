@@ -1,0 +1,142 @@
+.myapplicationspage{
+    background: #f1f3f6;
+    overflow:scroll;
+    height: 100%;
+}
+
+.myapplicationspage::-webkit-scrollbar{
+  display: none;
+}
+
+.container{
+    width:100%;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+.jobseekercard{
+    width:90%;
+    display:flex;
+    flex-direction:row;
+    background-color: #c3d3c0;
+    border-radius:10px;
+    padding:15px;
+    box-shadow: 2px 10px 10px -2px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+}
+.jobseekercard .detail{
+    display:flex;
+    flex-direction:column;
+    align-items: start;
+    width:50%;
+    height: 100%;
+    justify-content:center;
+}
+.jobseekercard .detail p span{
+    color:rgb(42, 39, 39);
+    font-weight:bold;
+}
+
+.jobseekercard .resume{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+    justify-content:center;
+    align-items:end;
+    
+}
+.jobseekercard .resume button{
+  width:40%;
+  border:none;
+  border-radius:10px;
+  padding:5px;
+}
+
+.jobseekercard .resume button:hover{
+  background-color: #04AA6D;
+}
+
+.jobseekercard .resume img {
+    width: 40%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 10px;
+    box-shadow: 2px 10px 10px -2px rgba(0,0,0,0.5);
+  }
+  @media (max-width: 1150px) {
+    .jobseekercard .detail {
+      flex: 1;
+    }
+    .jobseekercard .resume {
+      flex: 1;
+    }
+    .jobseekercard .btn_area {
+      flex: 1;
+    }
+  }
+  @media (max-width: 850px) {
+    .jobseekercard {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .jobseekercard .detail {
+      flex: none;
+    }
+    .jobseekercard .resume {
+      flex: none;
+      width: 320px;
+      margin: 30px 0;
+    }
+    .jobseekercard .btn_area {
+      flex: none;
+    }
+  }
+  @media (max-width: 360px) {
+    .jobseekercard,
+    .jobseekercard .resume {
+      width: 100%;
+    }
+  }
+
+  .resume-modal {
+    width: 100%;
+    display: flex;
+    background: #00000085;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  .resume-modal .modal-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .resume-modal .modal-content .close {
+    position: absolute;
+    right: 36px;
+    top: 35px;
+    font-size: 50px;
+    color: #d9534f;
+  }
+  .resume-modal .modal-content .close:hover {
+    cursor: pointer;
+  }
+  .resume-modal .modal-content img {
+    max-width: 550px;
+    height: auto;
+  }
+  @media (max-width: 1130px) {
+    .resume-modal {
+      z-index: 11;
+    }
+  }

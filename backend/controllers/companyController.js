@@ -100,8 +100,18 @@ export const logoutCompany = catchAsyncError(async (req, res, next) => {
   });
 
   res.status(200).json({
-    success: true,
+    success: true, 
     message: "Logged out",
+  });
+});
+export const getCompany = catchAsyncError(async (req, res, next) => {
+  const company = await Company.findById(req.params.id);
+  if (!company) {
+    return next(new ErrorHandler("Company not found", 404));
+  }
+  res.status(200).json({
+    success: true,
+    company,
   });
 });
 
@@ -275,4 +285,13 @@ export const getOneStudent = catchAsyncError(async (req, res, next) => {
     student,
   });
 });
+// :id/detail
+export const getOneCompany = catchAsyncError(async (req,res) => {
+  const {id} = req.params;
+  const company = await Company.findById(id);
+  res.status(200).json({
+    success:true,
+    company
+  })
+})
 

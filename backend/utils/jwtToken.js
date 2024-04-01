@@ -1,4 +1,5 @@
 export const sendToken = (user, statuscode, res, message) => {
+    console.log(user);
     const token = user.generateAccessToken();
     const options = {
         httpOnly: true

@@ -62,7 +62,7 @@ const Login = () => {
       setAuthorised(true);
       setTypeUser(roleSet);
       toast.success(showData.message);      
-      navigateTo(`/api/v1/${roleSet}`);
+      navigateTo(`/api/v1/${roleSet}`,{replace:true});
     } catch (error) {
       toast.error(error.response.data.message);
       setEmail("");

@@ -262,6 +262,7 @@ export const getAllAlumniAlreadySent = catchAsyncError(async (req, res) => {
   const request = await RequestAlumni.findOne({
     student: stu_id,
     alumni: alum_id,
+    status: true
   });
   res.json({
     show: request ? false : true,
@@ -301,3 +302,11 @@ export const getOneStudent = catchAsyncError(async (req, res) => {
     student,
   });
 });
+
+export const getAllStudents = catchAsyncError(async (req,res) => {
+  const students = await Student.find({});
+  res.status(200).json({
+    success: true,
+    students,
+  });
+})
