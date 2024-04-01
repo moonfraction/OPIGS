@@ -31,10 +31,17 @@ const RequestCard = ({ ele }) => {
         const response = await axios.get(`http://localhost:4000/api/v1/alumni/request/${ele._id}/approve`,{
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
+        })
+        const response2 = await axios.post(`http://localhost:4000/api/v1/conversations`,{
+            senderId: ele.alumni,
+            receiverId: ele.student
+      },{
+            withCredentials: true,
+            headers: { "Content-Type": "application/json" },
         })        
-        toast.success(response.data.message);
+        toast.success(response.data.message, response2.data.message);
     } catch (error) {
-        toast.error(error.response.data.message);
+        toast.error(error.response.data.message, error.response2.data.message);
     }
   }
 
