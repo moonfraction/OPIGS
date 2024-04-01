@@ -12,12 +12,12 @@
 
     &::-webkit-scrollbar-thumb {
         background: transparent;
-        border: 1px solid #bac6f5;
+        border: 1px solid #76ABAE;
         border-radius: 5px;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-        background: #bac6f5;
+        background: #76ABAE;
     }
 
 }
@@ -29,20 +29,20 @@
     padding: 5px 10px;
     cursor: pointer;
     margin-top: 20px;
-    border: 1px solid #bac6f5;
+    border: 1px solid #222831;
     border-radius: 10px;
-    color: #bac6f5;
+    color: #222831;
     transition: background-color 0.3s;
 }
 
 .conversation.active{
-    background-color: #bac6f5;
-    color: #16166f;
+    background-color: #31363F;
+    color: #76ABAE;
 }
 
 .conversation:hover {
-    background-color: #bac6f5;
-    color: #16166f;
+    background-color: #31363F;
+    color: #76ABAE;
 }
 
 .conversationImg {
@@ -51,7 +51,6 @@
     border-radius: 50%;
     object-fit: cover;
     margin-right: 20px;
-    border: 1px solid #bac6f5;
 
 }
 
