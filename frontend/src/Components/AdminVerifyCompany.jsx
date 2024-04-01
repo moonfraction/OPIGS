@@ -93,7 +93,7 @@ const AdminVerifyCompany = ()=>{
 
     return(
         <div className="view-request-container">
-            {
+            { requests && 
                 requests.map((element)=>{
                     return <RequestCard ele ={element}/>
                 })

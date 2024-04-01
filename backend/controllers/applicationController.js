@@ -16,7 +16,7 @@ export const companyGetAllApplications = catchAsyncError(async (req, res, next) 
     if (!company) {
         return next(new ErrorHandler("Company not found", 404));
     }
-    const applications = await Application.find({});
+    const applications = await Application.find({status:"Pending"});
     if (!applications) {
         return next(new ErrorHandler("No applications found", 404));
     }
@@ -78,7 +78,7 @@ export const companyChangeApplicationStatus = catchAsyncError(async (req, res, n
     // if (!status) {
     //     return next(new ErrorHandler("Please enter the status", 400));
     // }
-    application.status = "approved";
+    application.status = "Approved";
     await application.save();
     res.status(200).json({
         success: true,

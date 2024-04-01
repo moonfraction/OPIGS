@@ -8,45 +8,45 @@ const CompanyDetails =() =>{
     return(
         <div className="company-details-container">
             <div className="detail-container">
-            <div className="detail">
+            <div className="company-detail">
                     <p>
                         Name: <span>{user.name}</span>
                     </p>
                 
             </div>
-            <div className="detail">
+            <div className="company-detail">
                     <p>
                         Location: <span>{user.location}</span>
                     </p>
                    
 
             </div>
-            <div className="detail">
+            <div className="company-detail">
 
                 <p>
                 Working Environment: <span>{user.workEnvironment}</span>
                 </p> 
                 
             </div>
-            <div className="detail">
+            <div className="company-detail">
                 
                 <p>
                 Recruitment Policy: <span>{user.recruitmentPolicy}</span>
                 </p>  
                 
             </div>
-            <div className="detail">
+            <div className="company-detail">
                 <p>
                 Website: <span>{user.website}</span>
                 </p> 
                    
             </div>
-            <div className="detail">
+            <div className="company-detail">
                 <p>
                 Phone: <span>{user.phone}</span>
                 </p>                    
             </div>
-            <div className="detail">
+            <div className="company-detail">
                 <p>
                 Email: <span>{user.email}</span>
                 </p>      

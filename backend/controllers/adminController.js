@@ -41,7 +41,7 @@ const loginAdmin = catchAsyncError(async (req,res,next) => {
     if(!isPasswordMatched){
         throw new ErrorHandler("Invalid credentials 2", 401);
     }
-    sendToken(admin, 200, res, "Admin logged in successfully");
+    sendToken(adminOne, 200, res, "Admin logged in successfully");
 });
 
 //logout admin => /api/v1/admin/logout

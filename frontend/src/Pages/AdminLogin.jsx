@@ -31,20 +31,16 @@ const AdminLogin = () => {
                     }
                 }
             );
-            console.log(response.data.user);
             const showData = await response.data;
             setUser(showData.user);
             setAuthorised(true);
             setTypeUser(roleSet);
             toast.success(response.data.message);
-            navigateTo("/api/v1/alumni/dashboard");
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
-            setEmail("");
-            setPassword("");
-            //to be removed
             navigateTo("/api/v1/admin/dashboard");
+        } catch (error) {
+            toast.error(error.response.data.message);
+            // setEmail("");
+            // setPassword("");
         }
     }
     return (
