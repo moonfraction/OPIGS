@@ -21,7 +21,6 @@ export const registerStudent = catchAsyncError(async (req, res) => {
     profilePhoto,
     roll,
   } = req.body;
-  console.log(profilePhoto);
   if (
     !name ||
     !email ||
@@ -211,7 +210,6 @@ export const getStudentProfile = catchAsyncError(async (req, res) => {
 
 //request alumni => /api/v1/student/requestAlumni/:alum_id
 export const requestAlumni = catchAsyncError(async (req, res) => {
-  console.log(req.user);
   const studentId = req.user._id;
   const student = await Student.findById(studentId);
   if (!student) {

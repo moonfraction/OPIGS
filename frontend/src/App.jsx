@@ -33,7 +33,9 @@ import AdminDashboard from "./Pages/DashBoard/AdminDashboard.jsx";
 import UpdateProfileAdmin from "./Components/UpdateProfileAdmin.jsx";
 import AdminSendNotification from "./Components/AdminSendNotification.jsx";
 import AdminVerifyCompany from "./Components/AdminVerifyCompany.jsx";
-import AdminDetails from "./Components/AdminDetails.jsx";
+import AdminDetails from "./Components/AdminDetails.jsx";import Chat from "./Chat/Chat";
+
+
 const App = () => {
   const navigateTo = useNavigate();
   const { user, setUser, authorised, setAuthorised, typeUser, setTypeUser } =
@@ -72,6 +74,7 @@ const App = () => {
           <Route path="alumni" element={<ViewAlumni />} />
           <Route path="update-profile" element={<UpdateProfileStudent />} />
           <Route path="notification" element={<NotificationStudent />} />
+          <Route path="chat" element={<Chat />} />
 
           <Route path="jobs" element={<Jobs />} />
           <Route path="jobDetails/:id" element={<JobDetails />} />
@@ -84,6 +87,7 @@ const App = () => {
           <Route path="dashboard" element={<AlumniDetails />} />
           <Route path="update-profile" element={<UpdateProfileAlumni />} />
           <Route path="view-request" element={<ViewRequestAlumni />} />
+          <Route path="chat" element={<Chat />} />
         </Route>
 
         <Route path="/api/v1/company" element={<CompanyDashboard />}>
