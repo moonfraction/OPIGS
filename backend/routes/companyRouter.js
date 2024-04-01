@@ -3,7 +3,9 @@ import { upload } from '../middlewares/multer.js';
 import { registerCompany,loginCompany, logoutCompany, getCompanyProfile, updateCompanyProfile, changePassword, applyForVerification, getAllStudents, getOneStudent, getOneCompany, getCompany} from '../controllers/companyController.js';
 const router = express.Router();
 import { isCompanyLoggedIn, isCompanyLoggedInandVerified } from '../middlewares/companyAuth.js';
+import { generateJobNotification } from '../controllers/notificationController.js';
 
+router.route("/job-notif").post(isCompanyLoggedInandVerified, generateJobNotification);
 router.route("/register").post(registerCompany);
 router.route("/login").post(loginCompany);
 router.route("/:id/detail").get(getOneCompany);

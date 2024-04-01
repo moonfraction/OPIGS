@@ -43,6 +43,15 @@ const PostJob = () => {
             );
             console.log(response);
             toast.success(response.data.messsage);
+            const notif = await axios.post("http://localhost:4000/api/v1/company/job-notif", {
+                title: title,
+            },{
+                withCredentials:true,
+                headers:{
+                    "Content-type":"application/json",
+                }
+            })
+            console.log(notif);
             navigateTo("/api/v1/company/dashboard");
             setCategory("");
             setTitle("");

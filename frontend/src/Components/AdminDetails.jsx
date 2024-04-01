@@ -3,7 +3,7 @@ import "../style/adminDetails.css"
 const AdminDetails = ()=>{
     return(
     <div className="dashboard">
-       <div><h3>OPIGS</h3></div> 
+       <div><h1>OPIGS ADMIN</h1></div> 
     </div>
     )
 }
