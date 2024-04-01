@@ -74,6 +74,7 @@ const Chat = () => {
       text: newMessage,
       conversationId: currentChat._id,
     };
+    if(!newMessage) return;
 
     const receiverId = currentChat.members.find(
       (member) => member !== user._id
