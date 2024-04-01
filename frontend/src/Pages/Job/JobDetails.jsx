@@ -33,7 +33,7 @@ const JobDetails = () => {
   }, []);
 
   return (
-    <section className="jobDetail">
+    <div className="jobDetail">
       <div className="container">
         <div className="banner">
           <p>
@@ -46,7 +46,7 @@ const JobDetails = () => {
             Location: <span>{job.location}</span>
           </p>
           <p>
-            Company: <span>{job.company}</span>
+            Company: <span>{job.companyName}</span>
           </p>
           <p>
             Description: <span>{job.description}</span>
@@ -60,7 +60,7 @@ const JobDetails = () => {
           <Link to ={`/api/v1/student/postApplication/${job._id}`}>Apply Now</Link>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

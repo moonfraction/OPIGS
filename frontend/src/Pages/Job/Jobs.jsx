@@ -30,9 +30,7 @@ const Jobs = () => {
   }
 
   return (
-    <section className="jobs">
-      <div className="container">
-        <div className="banner">
+    <div className="jobs">
           {jobs.jobs &&
             jobs.jobs.map((element) => {
               return (
@@ -41,15 +39,12 @@ const Jobs = () => {
                   <p>{element.companyName}</p>
                   <p>{element.category}</p>
                   <p>{element.location}</p>
-                  <NavLink to={`/api/v1/student/jobDetails/${element._id}`}>Job Details</NavLink>
+                  <div className="details-button"><NavLink to={`/api/v1/student/jobDetails/${element._id}`}>Job Details</NavLink></div>
                 </div>
               );
             })}
-        </div>
-       
-      </div>
       <Outlet/>
-    </section>
+    </div>
   );
 };
 

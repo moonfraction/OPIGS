@@ -22,12 +22,17 @@ import UpdateProfileStudent from "./Components/UpdateProfileStudent";
 import CompanyDetails from "./Components/CompanyDetails.jsx";
 import MyJobs from "./Pages/Job/MyJobs.jsx";
 import UpdateProfileCompany from "./Components/UpdateProfileCompany.jsx";
-import MyApplication from "./Pages/Application/MyApplications.jsx";
 import PostJob from "./Pages/Job/PostJob.jsx";
 import NotificationCompany from "./Components/NotificationCompany.jsx";
 import UpdateProfileAlumni from "./Components/UpdateProfileAlumni.jsx";
 import ViewRequestAlumni from "./Components/ViewRequestAlumni.jsx";
-
+import MyApplications from "./Pages/Application/MyApplications.jsx";
+import AdminLogin from "./Pages/AdminLogin.jsx";
+import AdminDashboard from "./Pages/DashBoard/AdminDashboard.jsx";
+import UpdateProfileAdmin from "./Components/UpdateProfileAdmin.jsx";
+import AdminSendNotification from "./Components/AdminSendNotification.jsx";
+import AdminVerifyCompany from "./Components/AdminVerifyCompany.jsx";
+import AdminDetails from "./Components/AdminDetails.jsx";
 const App = () => {
   const navigateTo = useNavigate();
   const { user, setUser, authorised, setAuthorised, typeUser, setTypeUser } =
@@ -52,7 +57,7 @@ const App = () => {
       }
     };
     getUser();
-    if (!authorised) {
+    if (document.location.href != "http://localhost:5173/adminLogin" && !authorised){
       navigateTo("/login");
     }
   }, []);
@@ -84,11 +89,21 @@ const App = () => {
           <Route index element={<CompanyDetails />} />
           <Route path="dashboard" element={<CompanyDetails />} />
           <Route path="update-profile" element={<UpdateProfileCompany />} />
-          <Route path="my-applications" element={<MyApplication />} />
+          <Route path="my-applications" element={<MyApplications />} />
           <Route path="notification" element={<NotificationCompany />} />
           <Route path="my-posted-jobs" element={<MyJobs />} />
           <Route path="post-new-job" element={<PostJob />} />
         </Route>
+
+        <Route path="/adminLogin" element={<AdminLogin/>}/>
+        <Route path="/api/v1/admin" element = {<AdminDashboard/>}>
+          <Route index element = {<AdminDetails/>}/>
+          <Route path="dashboard" element = {<AdminDetails/>}/>
+          <Route path="update-profile" element={<UpdateProfileAdmin/>}/>
+          <Route path="verify-company" element={<AdminVerifyCompany/>}/>
+          <Route path="send-notification" element={<AdminSendNotification/>}/>
+        </Route>
+
 
         <Route path="/login" element={<Login />} />
 

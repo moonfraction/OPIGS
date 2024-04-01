@@ -25,16 +25,21 @@ const registerAdmin = catchAsyncError(async (req,res,next) => {
 //login admin => /api/v1/admin/login
 const loginAdmin = catchAsyncError(async (req,res,next) => {
     const {email, password} = req.body;
+    console.log(password);
     if(!email || !password){
         throw new ErrorHandler("Please provide email and password", 400);
     }
-    const admin = await Admin.findOne({email});
-    if(!admin){
+    const admin = await Admin.find({email});
+    console.log(admin);
+    if(admin.length < 1){
         throw new ErrorHandler("Invalid credentials", 401);
     }
-    const isPasswordMatched = await admin.comparePassword(password);
+    var adminOne = admin[0];
+    console.log(adminOne)
+    const isPasswordMatched = await adminOne.comparePassword(password);
+    console.group(isPasswordMatched);
     if(!isPasswordMatched){
-        throw new ErrorHandler("Invalid credentials", 401);
+        throw new ErrorHandler("Invalid credentials 2", 401);
     }
     sendToken(admin, 200, res, "Admin logged in successfully");
 });
@@ -66,12 +71,13 @@ const viewAllCompanyRequests = catchAsyncError(async (req,res,next) => {
 // verify company => /api/v1/admin/verify/:req_id
 const verifyCompany = catchAsyncError(async (req,res,next) => {
     //change company.status to approved or rejected
+    const {stats} = req.body;
     const {req_id} = req.params;
     const req_obj = await Verification.findById(req_id);
     if(!req_obj){
         throw new ErrorHandler("Request not found", 404);
     }
-    const updatedCompany = await Company.findByIdAndUpdate(req_obj.company, {status: req.body.status});
+    const updatedCompany = await Company.findByIdAndUpdate(req_obj.company, {status: stats});
     await req_obj.deleteOne();
     const company = await Company.findById(req_obj.company);
     res.status(200).json({

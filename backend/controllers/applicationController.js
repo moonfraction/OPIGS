@@ -8,7 +8,7 @@ import Company from "../models/companySchema.js";
 
 // get all applications for a company => /api/v1/application/company
 export const companyGetAllApplications = catchAsyncError(async (req, res, next) => {
-    const companyID =req.user._id || req.user.id;
+    const companyID = req.user._id || req.user.id;
     if (!companyID) {
         return next(new ErrorHandler("Company not found", 404));
     }
@@ -74,11 +74,11 @@ export const companyChangeApplicationStatus = catchAsyncError(async (req, res, n
     if (job.company.toString() !== companyID) {
         return next(new ErrorHandler("User not authorized to change status of this application", 401));
     }
-    const { status } = req.body;
-    if (!status) {
-        return next(new ErrorHandler("Please enter the status", 400));
-    }
-    application.status = status;
+    // const { status } = req.body;
+    // if (!status) {
+    //     return next(new ErrorHandler("Please enter the status", 400));
+    // }
+    application.status = "approved";
     await application.save();
     res.status(200).json({
         success: true,
@@ -86,6 +86,7 @@ export const companyChangeApplicationStatus = catchAsyncError(async (req, res, n
         application
     });
 });
+
 
 // get all applications for a job => /api/v1/applications/student
 export const studentGetAllApplications = catchAsyncError(async (req, res, next) => {

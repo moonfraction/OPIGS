@@ -9,42 +9,47 @@ const CompanyDetails =() =>{
         <div className="company-details-container">
             <div className="detail-container">
             <div className="detail">
-                    <h3>Name: </h3>
-                    <p>{user.name}</p>
+                    <p>
+                        Name: <span>{user.name}</span>
+                    </p>
                 
             </div>
             <div className="detail">
-                
-                    <h3>Location: </h3>
-                    <p>{user.location}</p>
+                    <p>
+                        Location: <span>{user.location}</span>
+                    </p>
+                   
 
             </div>
             <div className="detail">
 
-                    <h3>Working Environment: </h3>
-                    <p>{user.workEnvironment}</p>
+                <p>
+                Working Environment: <span>{user.workEnvironment}</span>
+                </p> 
                 
             </div>
             <div className="detail">
                 
-                    <h3>Recruiting Policy: </h3>
-                    <p>{user.recruitmentPolicy}</p>
+                <p>
+                Recruitment Policy: <span>{user.recruitmentPolicy}</span>
+                </p>  
                 
             </div>
             <div className="detail">
-                
-                    <h3>Website: </h3>
-                    <p>{user.website}</p>
-
+                <p>
+                Website: <span>{user.website}</span>
+                </p> 
+                   
             </div>
             <div className="detail">
-
-                    <h3>Phone: </h3>
-                    <p>{user.phone}</p>
+                <p>
+                Phone: <span>{user.phone}</span>
+                </p>                    
             </div>
             <div className="detail">
-                    <h3>Email: </h3>
-                    <p>{user.email}</p>
+                <p>
+                Email: <span>{user.email}</span>
+                </p>      
             </div>
         </div>
         </div>
