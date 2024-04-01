@@ -51,7 +51,7 @@ const jobSchema = new mongoose.Schema({
     },
     deadline: {
         type: Date,
-        required: [true, 'Please enter Job deadline']
+        required: [true, 'Please enter Job deadline'],
     },
     expired: {
         type: Boolean,

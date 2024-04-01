@@ -260,6 +260,7 @@ export const getAllAlumniAlreadySent = catchAsyncError(async (req, res) => {
   const request = await RequestAlumni.findOne({
     student: stu_id,
     alumni: alum_id,
+    status: true
   });
   res.json({
     show: request ? false : true,
@@ -289,7 +290,6 @@ export const uploadCv = catchAsyncError(async (req, res) => {
   });
 });
 
-//get one student => /api/v1/student/:id
 export const getOneStudent = catchAsyncError(async (req, res) => {
   const student = await Student.findById(req.params.id);
   if (!student) {
@@ -300,3 +300,11 @@ export const getOneStudent = catchAsyncError(async (req, res) => {
     student,
   });
 });
+
+export const getAllStudents = catchAsyncError(async (req,res) => {
+  const students = await Student.find({});
+  res.status(200).json({
+    success: true,
+    students,
+  });
+})

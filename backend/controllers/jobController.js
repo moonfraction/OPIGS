@@ -77,7 +77,7 @@ export const getJobDetails = catchAsyncError(async (req, res, next) => {
 
 // post job => /api/v1/job/post
 export const postJob = catchAsyncError(async (req, res, next) => {
-    const { category, title, description, location, salary, jobType, postedOn, deadline, expired } = req.body;
+    const { category, title, description, location, salary, jobType,postedOn,deadline, expired} = req.body;
 
     if (
         !category ||
@@ -122,6 +122,7 @@ export const postJob = catchAsyncError(async (req, res, next) => {
     }
 
     const company = await Company.findById(companyId);
+    console.log(company);
     const job = await Job.create({
         category,
         title,
@@ -133,7 +134,7 @@ export const postJob = catchAsyncError(async (req, res, next) => {
         jobType,
         postedOn,
         deadline,
-        expired
+        expired,
     });
 
     res.status(200).json({
@@ -142,4 +143,16 @@ export const postJob = catchAsyncError(async (req, res, next) => {
         job
     });
 });
+
+export const getJobsByCompanyId =  catchAsyncError(async (req,res) => {
+    const company_id = req.user._id;
+    const jobs = await Job.find({company: company_id});
+    if(!jobs){
+        return next(new ErrorHandler("No jobs found", 404));
+    }
+    res.status(200).json({
+        success: true,
+        jobs
+    });
+})
 

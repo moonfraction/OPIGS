@@ -275,4 +275,13 @@ export const getOneStudent = catchAsyncError(async (req, res, next) => {
     student,
   });
 });
+// :id/detail
+export const getOneCompany = catchAsyncError(async (req,res) => {
+  const {id} = req.params;
+  const company = await Company.findById(id);
+  res.status(200).json({
+    success:true,
+    company
+  })
+})
 

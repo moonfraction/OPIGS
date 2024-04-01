@@ -52,7 +52,7 @@ const StudentDetails = () => {
           </div>
           <div className="detail">
             <h3>CGPA:</h3>
-            <p>{parseFloat(user.CGPA)}</p>
+            <p>{user.CGPA}</p>
           </div>
           <div className="detail">
             <h3>Branch:</h3>
