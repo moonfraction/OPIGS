@@ -15,10 +15,15 @@
     padding-left: 20px;
     font-size: 1.25rem;
 }
-.company-details-container .detail-container .detail{
+.company-details-container .detail-container .company-detail{
     display: flex;
     align-items: center;
 }
-.company-details-container .detail-container .detail h3{
+.company-details-container .detail-container .company-detail p{
+    font-weight:bold;
+    margin-right: 10px;
+}
+.company-details-container .detail-container .company-detail p span{
+    font-weight:400;
     margin-right: 10px;
 }

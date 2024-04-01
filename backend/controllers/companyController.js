@@ -100,8 +100,18 @@ export const logoutCompany = catchAsyncError(async (req, res, next) => {
   });
 
   res.status(200).json({
-    success: true,
+    success: true, 
     message: "Logged out",
+  });
+});
+export const getCompany = catchAsyncError(async (req, res, next) => {
+  const company = await Company.findById(req.params.id);
+  if (!company) {
+    return next(new ErrorHandler("Company not found", 404));
+  }
+  res.status(200).json({
+    success: true,
+    company,
   });
 });
 

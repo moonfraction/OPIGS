@@ -39,7 +39,7 @@ const JobDetails = () => {
   const deadline = new Date(job.deadline);
 
   return (
-    <section className="jobDetail">
+    <div className="jobDetail">
       <div className="container">
         <div className="banner">
           <p>
@@ -75,7 +75,7 @@ const JobDetails = () => {
           <Link to ={`/api/v1/student/postApplication/${job._id}`}>Apply Now</Link>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

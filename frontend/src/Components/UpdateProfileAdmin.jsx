@@ -1,45 +1,15 @@
-import React,{useState,useContext} from 'react';
+import React,{useState,useContext}from 'react';
 import axios from "axios";
 import toast from "react-hot-toast";
-import "../style/updateProfileStudent.css";
-import {Context} from "../main";
+import "../style/updateProfileAdmin.css";
 
-const UpdateProfileCompany = ()=>{
+const UpdateProfileAdmin =()=>{
     const [oldPassword,setOldPassword] = useState("");
     const [newPassword,setNewPassword] = useState("");
-    const {user,setUser} = useContext(Context);
-    
-      const handleUploadLogo = async (e) => {
-        e.preventDefault();
-        let temp = new FormData();
-        temp.append("cv", image);
-        try {
-          const response = await axios.post(
-            "http://localhost:4000/api/v1/student/upload-cv",
-            temp,
-            {
-              withCredentials: true,
-              headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Credentials": true,
-              },
-            }
-          );
-        //   console.log(response.d)
-          setUser({ ...user, resume: response.data.student.resume });
-          toast.success(response.data.message);
-        } catch (error) {
-          console.log(error);
-          toast.error(error.response.data.message);
-        }
-      };
-    
-    
-
     const handleUpdatePassword = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:4000/api/v1/company/changePassword",{oldPassword,newPassword}, {
+            const response = await axios.post("http://localhost:4000/api/v1/admin/update-password",{oldPassword,newPassword}, {
                 withCredentials: true,
                 headers:{
                     "Content-Type": "application/json",
@@ -51,13 +21,13 @@ const UpdateProfileCompany = ()=>{
     
         } catch (error) {
             toast.error(error.response.data.message);
+            console.log(error.response);
             setOldPassword("");
             setNewPassword("");
         }
       }
-    
     return(
-        <div className="update-profile-student">
+        <div className="update-profile-admin">
          <div className="update-password">
             <h2>Update Password</h2>
             <form action="">
@@ -67,6 +37,6 @@ const UpdateProfileCompany = ()=>{
             </form>
         </div>
         </div>
-    )   
+    )
 }
-export default UpdateProfileCompany;
+export default UpdateProfileAdmin;

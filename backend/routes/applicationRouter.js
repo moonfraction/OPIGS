@@ -11,7 +11,7 @@ router.route("/delete/:id").delete(isStudentLoggedIn,studentDeleteApplication);
 router.route("/student").get(isStudentLoggedIn,studentGetAllApplications);
 router.route("/company").get(isCompanyLoggedInandVerified,companyGetAllApplications);
 router.route("/company/:id").get(isCompanyLoggedInandVerified,companyGetSingleApplication);
-router.route("/company/:id/status").put(isCompanyLoggedInandVerified,companyChangeApplicationStatus);
+router.route("/company/:id/status").get(isCompanyLoggedInandVerified,companyChangeApplicationStatus);
 router.route("/approved").get(isStudentLoggedIn,getApprovedApplications);
 
 export default router;
