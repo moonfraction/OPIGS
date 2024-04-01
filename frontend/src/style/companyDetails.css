@@ -27,3 +27,9 @@
     font-weight:400;
     margin-right: 10px;
 }
+
+.company-details-container button{
+    background-color: var(--grey-dark);
+    color: var(--white);
+    z-index:3;
+}
