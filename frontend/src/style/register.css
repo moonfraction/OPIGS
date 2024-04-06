@@ -117,7 +117,31 @@
     font-weight: 600;
 }
 
-#file-upload{
-    height: 25px;
-    border-bottom: 0px;
+#pfp-upload{
+    display: none;
+}
+
+.PFP-upload{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--light-green);
+    color: var(--grey-dark);
+    font-size: 1.25rem;
+    cursor: pointer;    
+}
+
+.registration_pfp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20%;
+    width: 100%;
+    gap: 20px;
+}
+
+.registration_pfp .stu_pfp{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
 }

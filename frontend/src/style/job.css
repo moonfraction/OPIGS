@@ -3,23 +3,31 @@
   padding: 40px 40px;
   display:flex;
   flex-wrap:wrap;
-  gap:30px;
-  height:80%;
+  /* gap:30px; */
+  height:100%;
   overflow:scroll;
   padding-bottom:20px;
 }
 
 .jobs .card {
-  padding:10px;
+  padding: 10px;
   border-radius: 20px;
-  background-color: rgb(205, 203, 209);
-  width:20%;
+  width: 200px;
+  height: 200px;
   box-shadow: 2px 10px 10px -1px rgba(0, 0, 0, 0.4);
+  border: 2px solid var(--light-green);
+  overflow: overlay;
+  margin: 0 20px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
 }
 
 .jobs .card p:first-child {
   font-weight: bold;
   font-size: 1.6rem;
+  color: var(--dark-green);
 }
 
 .jobs .card p:nth-child(2) {
@@ -32,57 +40,42 @@
   color: gray;
 }
 
-.jobs .card .details-button {
+.single_job_card .details-button {
+  display:flex;
+  justify-content:center;
   text-decoration:none;
-  background-color:rgb(14, 147, 241);
-  width:80%;
-  margin-left:8%;
+  background-color: #e3f7f6;
+  border: 1px solid var(--light-green);
+  width: 80%;
   text-align:center;
   border-radius:20px;
   padding:7px;
-  margin-top:7%;
+  margin :5px 20px;
+  transition: 0.2s;
 }
 
-.jobs .card .details-button a{
+.single_job_card .details-button:hover  {
+  background-color: var(--light-green);
+  cursor:pointer;
+}
+
+.jobs .details-button a{
   text-decoration:none;
   font-size:1rem;
+  color: var(--dark-green);
+}
+.jobs .details-button:hover a{
   color:white;
-}
-.jobs .card .details-button:hover{
-  background-color:rgba(14, 146, 241, 0.795);
-}
-
-
-/* @media (max-width: 1520px) {
-  .jobs{
-    min-width: 100%;
-  }
-} */
-
-@media (max-width: 1060px) {
-  .jobs .card {
-    width: 250px;
-  }
-}
-
-@media (max-width: 795px) {
-  .jobs  .card {
-    width: 80%;
-  }
-  .jobs{
-    justify-content:center;
-  }
 }
 
 .jobDetail {
   background: #f1f3f6;
-  padding: 50px 20px;
+  padding: 0 20px;
   height: 100%;
 }
 
 .jobDetail .container {
   width: 100%;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,7 +88,7 @@
   padding: 50px 0;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 15px;
 }
 
 .jobDetail .container .banner p {
@@ -110,20 +103,21 @@
 }
 
 .jobDetail .container .banner a {
-  background-color: #04AA6D;
-  color: rgb(233, 249, 255);
+  color: var(--dark-green);
   font-size: 20px;
   font-weight: 400;
-  border: none;
+  border: 2px solid var(--light-green);
   padding: 12px 30px;
   text-decoration: none;
   margin-top: 10px;
   width: fit-content;
   border-radius:20px;
+  transition: 0.2s;
 }
 
 .jobDetail .container .banner a:hover{
-  background-color:#04aa6dcb;
+  background-color : var(--light-green);
+  color:white;
 }
 
 @media (max-width: 1520px) {

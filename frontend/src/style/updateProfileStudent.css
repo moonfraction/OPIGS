@@ -68,3 +68,29 @@
     border-radius: 30px;
     font-weight: bold;
 }
+
+#upload-cv{
+    display: none;
+}
+
+.upload-cv{
+    cursor: pointer;
+    background-color: #76ABAE;
+    color: var(--white);
+    font-size: 1.25rem;
+    width: 200px;
+    margin: 10px 5px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.cv-image{
+    height: 50px;
+    width: 50px;
+    border: 1px solid black;
+
+}
+.upload_cv_container{
+    display: flex;
+    align-items: center;
+}

@@ -5,6 +5,7 @@
 }
 .application-container{
     display:flex;
+    flex-direction: column;
     align-items:center;
     width:100%;
     height:80vh;
@@ -13,7 +14,12 @@
     box-shadow: 12px 17 px 24px -3px rgba(0,0,0,0.75);
     border-width:20px;
     justify-content:center;
-
+}
+.application_title{
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--grey-dark);
+    margin-bottom: 20px;
 }
 .application-container .form-container{
     display: flex;

@@ -2,6 +2,7 @@
 :root {
     --white : #EEEEEE;
     --light-green : #76ABAE;
+    --dark-green : #3D7E7D;
     --grey-light:#31363F;
     --grey-dark:#222831;
 }
@@ -12,4 +13,8 @@
     padding: 0;
     overflow:hidden;
     font-family: "Poppins", sans-serif;
+}
+
+button{
+    cursor: pointer;
 }

@@ -22,7 +22,7 @@ const StudentRegister = () => {
     sendFileToBase(file);
   };
 
-  const sendFileToBase = (file) =>{
+  const sendFileToBase = (file) => {
     const read = new FileReader();
     read.readAsDataURL(file);
     read.onload = () => {
@@ -69,7 +69,7 @@ const StudentRegister = () => {
       setCgpa("");
       setAvatar("");
     } catch (err) {
-      toast.error(err.response.data.message);      
+      toast.error(err.response.data.message);
     }
   };
 
@@ -135,7 +135,11 @@ const StudentRegister = () => {
         value={cgpa}
         onChange={(e) => setCgpa(e.target.value)}
       />
-      <input id="file-upload" name="profilePhoto" type="file" accept=".png, .jpeg, .jpg" onChange={handleFileUpload}/>
+      <div className="registration_pfp">
+        <label htmlFor="pfp-upload" className="PFP-upload">Upload Profile Photo</label>
+        <img src={profilePhoto} alt="" className="stu_pfp"/>
+      </div>
+      <input id="pfp-upload" name="profilePhoto" type="file" accept=".png, .jpeg, .jpg" onChange={handleFileUpload} />
       <button type="submit" onClick={(e) => handleRegister(e)}>
         Register
       </button>

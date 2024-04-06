@@ -72,10 +72,15 @@ const UpdateProfileStudent = () => {
       <h2>Upload your CV</h2>
       <form className="cv-upload-form" action="">
         <input
+          id="upload-cv"
           type="file"
           accept=".png, .jpeg, .jpg"
           onChange={handleFileUpload}
         />
+        <div className="upload_cv_container">
+        <label htmlFor="upload-cv" className="upload-cv">Select a file for CV</label>
+        <img className="cv-image" src={image} alt="cv" />
+        </div>
         <button type="submit" onClick={(e) => handleUploadCV(e)}>
           Upload
         </button>

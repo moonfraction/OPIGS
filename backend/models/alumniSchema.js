@@ -39,7 +39,6 @@ const alumniSchema = new mongoose.Schema({
     jobProfile: {
         type: String,
         required: [true, 'Role is required'],
-        enum: ['SDE', 'Consult', 'Quant'],
         default: 'SDE'
     },
     branch: {

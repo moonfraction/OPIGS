@@ -9,7 +9,7 @@ const Jobs = () => {
   const [jobs, setJobs] = useState([]);
   const { authorised } = useContext(Context);
   const navigateTo = useNavigate();
-  const [company,setCompany] = useState({});
+  const [company, setCompany] = useState({});
   useEffect(() => {
     try {
       axios
@@ -22,7 +22,7 @@ const Jobs = () => {
     } catch (error) {
       console.log(error);
     }
-    
+
   }, []);
 
   if (!authorised) {
@@ -31,19 +31,21 @@ const Jobs = () => {
 
   return (
     <div className="jobs">
-          {jobs.jobs &&
-            jobs.jobs.map((element) => {
-              return (
-                <div className="card" key={element._id}>
-                  <p>{element.title}</p>
-                  <p>{element.companyName}</p>
-                  <p>{element.category}</p>
-                  <p>{element.location}</p>
-                  <div className="details-button"><NavLink to={`/api/v1/student/jobDetails/${element._id}`}>Job Details</NavLink></div>
-                </div>
-              );
-            })}
-      <Outlet/>
+      {jobs.jobs &&
+        jobs.jobs.map((element) => {
+          return (
+            <div className="single_job_card" key={element._id}>
+              <div className="card" key={element._id}>
+                <p>{element.title}</p>
+                <p>{element.companyName}</p>
+                <p>{element.category}</p>
+                <p>{element.location}</p>
+              </div>
+              <div className="details-button"><NavLink to={`/api/v1/student/jobDetails/${element._id}`}>Job Details</NavLink></div>
+            </div>
+          );
+        })}
+      <Outlet />
     </div>
   );
 };
