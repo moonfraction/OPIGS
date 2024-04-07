@@ -34,6 +34,9 @@
   border-radius: 10px;
   border: 2px solid var(--grey-dark);
 }
+.alum-data-container:hover{
+  box-shadow: 5px 8px 9px -3px rgba(0,0,0,0.45);
+}
 
 .alum-left {
   display: flex;
