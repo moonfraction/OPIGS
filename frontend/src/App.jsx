@@ -34,6 +34,7 @@ import UpdateProfileAdmin from "./Components/UpdateProfileAdmin.jsx";
 import AdminSendNotification from "./Components/AdminSendNotification.jsx";
 import AdminVerifyCompany from "./Components/AdminVerifyCompany.jsx";
 import AdminDetails from "./Components/AdminDetails.jsx";import Chat from "./Chat/Chat";
+import UpdateJobs from "./Pages/Job/UpdateJobs.jsx";
 
 
 const App = () => {
@@ -97,6 +98,7 @@ const App = () => {
           <Route path="my-applications" element={<MyApplications />} />
           <Route path="notification" element={<NotificationCompany />} />
           <Route path="my-posted-jobs" element={<MyJobs />} />
+          <Route path="update-job/:id" element={<UpdateJobs />} />
           <Route path="post-new-job" element={<PostJob />} />
           <Route path="view-all-students" element={<ViewStudentDetails />} />
         </Route>

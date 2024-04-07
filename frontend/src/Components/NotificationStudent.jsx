@@ -81,7 +81,7 @@ const NotificationStudent = () => {
 
   return (
     <div className="notif-container">
-        <div className="notif adm-notif">
+        <div className="notif-stu adm-notif">
             <h2>General Notifications</h2>
             {generalNotif && generalNotif.map((notif) => (
                 <NotificationCard title={notif.title} desc={notif.description}/>
@@ -90,7 +90,7 @@ const NotificationStudent = () => {
                 <NotificationCard title={notif.company} desc={notif.title}/>
             ))}
         </div>
-        <div className="notif selection-notif">
+        <div className="notif-stu selection-notif">
             <h2>Selection Notifications</h2>
             {selectionNotif && selectionNotif.map((notif) => (
                 <NotificationCard title={notif.companyName} desc="You have been approved"/>
