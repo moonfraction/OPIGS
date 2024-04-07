@@ -32,7 +32,7 @@
   box-shadow: 5px 8px 9px -3px rgba(0,0,0,0.25);  
   margin: 15px 0;
   border-radius: 10px;
-  border: 1px solid var(--grey-dark);
+  border: 2px solid var(--grey-dark);
 }
 
 .alum-left {
@@ -71,20 +71,21 @@
 }
 
 .alum-right button {
-  background-color: var(--grey-light);
+  background-color: var(--white);
   height: 70%;
-  border: none;
-  border-radius: 5px;
   padding: 5px 15px;
   font-size: 1rem;
   cursor: pointer;
-  color: var(--white);
+  color: var(--dark-green);
+  font-weight: 500;
   border-radius: 50px;
+  border: 2px solid var(--dark-green);
+  transition: 0.2s;
 }
 
 .alum-right button:hover{
-  font-weight: bolder;
-  background-color: var(--grey-dark);
+  background-color: var(--light-green);
+  color: var(--white);
 }
 
 .hide-card {
