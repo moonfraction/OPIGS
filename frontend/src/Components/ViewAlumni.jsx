@@ -32,7 +32,7 @@ const AlumniCard = ({ alum }) => {
       );
       if (check.data.show === true) {
         setShow(true);
-      };
+      }
     } 
     showAlum();
   });
