@@ -29,6 +29,7 @@
 
 .messageBottom {
     font-size: 12px;
+    color: var(--white);
     /* margin-top: 5px; */
 }
 
