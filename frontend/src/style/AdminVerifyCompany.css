@@ -12,7 +12,7 @@
     display: none;
   }
   
-  .request-card {
+  .view-request-container .request-card {
     width: 90%;
     height: 13%;
     display: flex;
@@ -23,14 +23,14 @@
     box-shadow: 12px 17px 15px -1px rgba(0, 0, 0, 0.25);
   }
   
-  .request-card .right{
+  .view-request-container .request-card .right{
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
   }
   
-  .request-card .right button{
+  .view-request-container .request-card .right button{
       width:100px;
       height: 30px;
       color: var(--white);
@@ -40,11 +40,11 @@
       font-weight: bold;
   }
   
-  .request-card .right button.accept{
+  .view-request-container .request-card .right button .accept{
       background-color: green;
   }
   
-  .request-card .right button.reject{
+  .view-request-container .request-card .right button .reject{
       background-color: red;
   }
   

@@ -9,7 +9,7 @@ router.route('/login').post(loginAdmin);
 router.route('/logout').get(isAdminLoggedIn, logoutAdmin);
 router.route('/verify/:req_id').put(isAdminLoggedIn, verifyCompany);
 router.route('/delete/:req_id').delete(isAdminLoggedIn, deleteCompanyRequest);
-router.route('/update-password').put(isAdminLoggedIn, updatePassword);
+router.route('/update-password').post(isAdminLoggedIn, updatePassword);
 router.route('/job-notif/:job_id').post(isAdminLoggedIn, sendNotificationOnJobUpdate);
 router.route('/send-general-notif').post(isAdminLoggedIn, sendGeneralNotification);
 router.route('/all-requests').get(isAdminLoggedIn, viewAllCompanyRequests);

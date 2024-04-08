@@ -80,10 +80,18 @@ const verifyCompany = catchAsyncError(async (req,res,next) => {
     const updatedCompany = await Company.findByIdAndUpdate(req_obj.company, {status: stats});
     await req_obj.deleteOne();
     const company = await Company.findById(req_obj.company);
-    res.status(200).json({
+    if(stats==="Approved"){res.status(200).json({
         success:true,
+        message:"Company Approved",
         company
-    })
+        
+    })}
+    else {res.status(200).json({
+        success:true,
+        message:"Company Rejected",
+        company
+    })}
+
 })
 
 //delete company request => /api/v1/admin/delete/:req_id
@@ -99,17 +107,21 @@ const deleteCompanyRequest = catchAsyncError(async (req,res,next) => {
 
 //update password => /api/v1/admin/update-password
 const updatePassword = catchAsyncError(async (req,res,next) => {
-    const {oldPassword, newPassword} = req.body;
+    const adminId = req.user._id || req.user.id;
+    const admin = await Admin.findById(adminId);
+    if (!admin) {
+        return next(new ErrorHandler('Admin not found', 404));
+    }
+    const { oldPassword, newPassword } = req.body;
     if(!oldPassword || !newPassword){
-        throw new ErrorHandler("Please provide old and new password", 400);
+        return next(new ErrorHandler("Please enter old and new password", 400));
     }
     if(oldPassword === newPassword){
-        throw new ErrorHandler("Old password and new password cannot be same", 400);
+        return next(new ErrorHandler("Old password and new password cannot be same", 400));
     }
-    const admin = await Admin.findById(req.user.id);
-    const isPasswordMatched = await admin.comparePassword(oldPassword);
-    if(!isPasswordMatched){
-        throw new ErrorHandler("Old password is incorrect", 400);
+    const passwordMatch = await admin.comparePassword(oldPassword);
+    if (!passwordMatch) {
+        return next(new ErrorHandler('Enter correct old password', 400));
     }
     admin.password = newPassword;
     await admin.save();
@@ -143,12 +155,16 @@ const sendNotificationOnJobUpdate = catchAsyncError(async (req,res,next) => {
 
 const sendGeneralNotification = catchAsyncError(async (req,res,next) => {
     const {title, description} = req.body;
+    if(!title || !description){
+        return next(new ErrorHandler("Please enter all fields",400)) ;
+    }
     const newNotif = await GeneralNotification.create({
         title,
         description
     })
     res.status(200).json({
         success:true,
+        message:"Notification sent successfully",
         newNotif
     })
 });

@@ -2,15 +2,17 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import '../../style/viewCompanyJob.css'
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const JobCard = ({job})=>{
+  const navigateTo = useNavigate();
   return (
     <div className="job-card">
       <div className="detail">
         <p>{job.title}</p>
       </div>
       <div className="view">
-        <button>View & Edit</button>
+        <button onClick={()=> navigateTo(`/api/v1/company/update-job/${job._id}`)}>View & Edit</button>
       </div>
     </div>
   )

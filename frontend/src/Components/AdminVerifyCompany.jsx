@@ -26,7 +26,7 @@ const RequestCard =({ele})=>{
             }
         }
         fetchCompany();
-    },[])
+    })
     const handleAccept = async () =>{
         try {
             const response = await axios.put(`http://localhost:4000/api/v1/admin/verify/${ele._id}`,
@@ -61,7 +61,7 @@ const RequestCard =({ele})=>{
                 <p>{website}</p>
             </div>
             <div className="right">
-                <button className="aceept" onClick={handleAccept}>Accept</button>
+                <button className="accept" onClick={handleAccept}>Accept</button>
                 <button className="reject" onClick={handleReject}>Reject</button>
             </div>
         </div>

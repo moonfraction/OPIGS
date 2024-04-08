@@ -20,6 +20,7 @@
   align-items: center;
   border-radius: 10px;
   box-shadow: 12px 17px 15px -1px rgba(0, 0, 0, 0.25);
+  border: 2px solid var(--light-green);
   width: 90%;
   margin-bottom: 20px;
   height: 15%;

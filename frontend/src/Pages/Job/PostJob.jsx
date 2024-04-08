@@ -52,7 +52,6 @@ const PostJob = () => {
                 }
             })
             console.log(notif);
-            navigateTo("/api/v1/company/dashboard");
             setCategory("");
             setTitle("");
             setDescription("");
