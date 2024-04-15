@@ -42,7 +42,7 @@ const PostJob = () => {
                 }
             );
             console.log(response);
-            toast.success(response.data.messsage);
+            toast.success(response.data.message);
             const notif = await axios.post("http://localhost:4000/api/v1/company/job-notif", {
                 title: title,
             },{

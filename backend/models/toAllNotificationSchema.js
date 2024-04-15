@@ -10,8 +10,7 @@ const toAllNotificationSchema = new mongoose.Schema({
         maxlength: [50, 'Notification title must be at most 50 characters long']
     },
     company: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Company',
+        type: String,
         required: [true, 'Please enter Company']
     },
     postedOn: {

@@ -1,4 +1,5 @@
 import { catchAsyncError } from "../middlewares/catchAsyncError.js";
+import Company from "../models/companySchema.js";
 import GeneralNotification from "../models/generalNotificationSchema.js";
 import ToAllNotif from "../models/toAllNotificationSchema.js";
 
@@ -23,9 +24,10 @@ const getGeneralNotif = catchAsyncError(async (req,res) => {
 const generateJobNotification = catchAsyncError(async (req,res) => {
     const {title} = req.body;
     const id = req.user._id;
+    const com = await Company.findById(id);
     const newNotif = await ToAllNotif.create({
         title,
-        company: id
+        company: com.name
     });
     res.status(200).json({
         success:true,
